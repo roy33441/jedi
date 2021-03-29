@@ -6,6 +6,8 @@ import 'core/themes/app_theme.dart';
 import 'logic/debug/app_bloc_observer.dart';
 import 'presentation/router/app_router.dart';
 
+// Credits:
+// Juhseer and Royky
 void main() {
   Bloc.observer = AppBlocObserver();
   runApp(App());

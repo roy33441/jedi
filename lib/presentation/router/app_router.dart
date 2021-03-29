@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../core/constants/strings.dart';
 import '../../core/exceptions/route_exception.dart';
 import '../screens/home_screen/home_screen.dart';
 
@@ -13,9 +12,7 @@ class AppRouter {
     switch (settings.name) {
       case home:
         return MaterialPageRoute(
-          builder: (_) => HomeScreen(
-            title: Strings.homeScreenTitle,
-          ),
+          builder: (_) => HomeScreen(),
         );
       default:
         throw const RouteException('Route not found!');
