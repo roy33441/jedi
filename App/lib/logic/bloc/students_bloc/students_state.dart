@@ -10,11 +10,15 @@ class StudentFetchSuccess extends StudentsState {
     required this.students,
   });
 
-  int get missingStudents =>
-      [...students].where((student) => !student.isPresent).length;
+  int get missingStudentsCount => missingStudents.length;
 
-  int get arrivedStudents =>
-      [...students].where((student) => student.isPresent).length;
+  List<StudentEntity> get missingStudents =>
+      [...students].where((student) => !student.isPresent).toList();
+
+  int get arrivedStudentsCount => arrivedStudents.length;
+
+  List<StudentEntity> get arrivedStudents =>
+      [...students].where((student) => student.isPresent).toList();
 }
 
 class StudentArrivedSuccess extends StudentFetchSuccess {

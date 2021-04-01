@@ -7,7 +7,7 @@ class ArrivedStudentsProgressIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.watch<StudentsBloc>().state as StudentFetchSuccess;
     final size = MediaQuery.of(context).size;
-    final ratio = state.arrivedStudents / state.students.length;
+    final ratio = state.arrivedStudentsCount / state.students.length;
 
     return Container(
       width: size.width * 0.22,

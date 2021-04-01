@@ -22,7 +22,7 @@ class App extends StatelessWidget {
     BaseOptions(
       baseUrl: 'https://05ba4dd0-77e0-4ece-b9cd-ff89bcff59e1.mock.pstmn.io',
     ),
-  ); // with default Options
+  );
 
   @override
   Widget build(BuildContext context) {

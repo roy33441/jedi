@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-
-import '../../router/app_router.dart';
+import 'package:jedi/presentation/screens/formation_screen/widgets/formation_body.dart';
 
 class FormationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppRouter.formation),
-      ),
-      body: Container(),
+      body: FormationBody(),
     );
   }
 }

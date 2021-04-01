@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jedi/core/constants/strings.dart';
-import 'package:jedi/logic/bloc/students_bloc/students_bloc.dart';
 import 'package:jedi/presentation/screens/formation_screen/formation_screen.dart';
 import '../../core/exceptions/route_exception.dart';
 import '../screens/home_screen/home_screen.dart';

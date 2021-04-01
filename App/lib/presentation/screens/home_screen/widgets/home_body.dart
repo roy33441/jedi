@@ -9,7 +9,10 @@ class HomeBody extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          StatisticsContainer(),
+          StatisticsContainer(
+            showIndicator: true,
+            screenPortion: 0.25,
+          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -18,8 +21,8 @@ class HomeBody extends StatelessWidget {
                   Strings.ready_to_scan,
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText1
-                      !.copyWith(fontWeight: FontWeight.w900, fontSize: 23),
+                      .bodyText1!
+                      .copyWith(fontWeight: FontWeight.w900, fontSize: 23),
                 ),
                 Container(
                     height: size.height * 0.23,
@@ -30,8 +33,8 @@ class HomeBody extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText1
-                      !.copyWith(fontSize: 17, fontWeight: FontWeight.w600),
+                      .bodyText1!
+                      .copyWith(fontSize: 17, fontWeight: FontWeight.w600),
                 )
               ],
             ),

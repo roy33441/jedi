@@ -42,7 +42,7 @@ class CourseDetails extends StatelessWidget {
                 return OneStudentStatistic(
                   value: context.select((StudentsBloc bloc) {
                     final currentState = bloc.state as StudentFetchSuccess;
-                    return currentState.missingStudents;
+                    return currentState.missingStudentsCount;
                   }),
                   title: Strings.missings,
                 );
@@ -53,7 +53,7 @@ class CourseDetails extends StatelessWidget {
                 return OneStudentStatistic(
                   value: context.select((StudentsBloc bloc) {
                     final currentState = bloc.state as StudentFetchSuccess;
-                    return currentState.arrivedStudents;
+                    return currentState.arrivedStudentsCount;
                   }),
                   title: Strings.here,
                 );

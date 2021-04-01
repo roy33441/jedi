@@ -5,7 +5,14 @@ import 'course_details.dart';
 import 'theme_button.dart';
 
 class StatisticsContainer extends StatelessWidget {
-  const StatisticsContainer({Key? key}) : super(key: key);
+  final bool showIndicator;
+  final double screenPortion;
+
+  const StatisticsContainer({
+    Key? key,
+    required this.showIndicator,
+    required this.screenPortion,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +20,14 @@ class StatisticsContainer extends StatelessWidget {
 
     return Container(
       decoration: _containterDecoration(),
-      height: size.height * 0.25,
+      height: size.height * screenPortion,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ArrivedStudentsProgressIndicator(),
+          showIndicator
+              ? ArrivedStudentsProgressIndicator()
+              : SizedBox(width: size.width * 0.1),
           SizedBox(
             width: size.width * 0.05,
           ),
