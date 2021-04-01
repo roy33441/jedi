@@ -53,6 +53,13 @@ func initControllers(route *gin.Engine, db *sqlx.DB) {
 			repositories.NewMissingReasonRepository(db),
 		),
 	)
+
+	controllers.NewReportTypeController(
+		route.Group("/reportTypes"),
+		*services.NewReportTypeService(
+			repositories.NewReportTypeRepository(db),
+		),
+	)
 }
 
 func main() {

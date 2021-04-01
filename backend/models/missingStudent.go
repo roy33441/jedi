@@ -9,8 +9,6 @@ type MissingStudent struct {
 	MissingOn 	pgtype.Date	`json:"missing on" db:"missing_on"`
 }
 
-const missingStudent_tablename string = "t_missing_student"
-
 type MissingStudentRepository interface {
 	GetAll()				(*[]MissingStudent, error)
 	Add(*MissingStudent)	(int64, error)

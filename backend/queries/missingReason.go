@@ -6,7 +6,7 @@ import (
 	"dev.azure.com/u8635137/_git/Jedi/backend/config"
 )
 
-var missingReasonTable = fmt.Sprintf("%s.t_missing_reason", config.SchemaName);
+const missingReasonTable = config.SchemaName + ".t_missing_reason"
 
 var (
 	MISSING_REASON_GET_ALL = fmt.Sprintf(

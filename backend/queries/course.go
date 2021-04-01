@@ -6,7 +6,7 @@ import (
 	"dev.azure.com/u8635137/_git/Jedi/backend/config"
 )
 
-var courseTable = fmt.Sprintf("%s.t_course", config.SchemaName);
+const courseTable = config.SchemaName + ".t_course";
 
 var (
 	COURSE_GET_ALL = fmt.Sprintf(

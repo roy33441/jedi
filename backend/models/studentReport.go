@@ -9,8 +9,6 @@ type StudentReport struct {
 	DateReported	pgtype.Date	`json:"date reported" db:"date_reported"`
 }
 
-const studentReport_tablename string = "t_student_report"
-
 type StudentReportRepository interface {
 	GetAll()			(*[]StudentReport, error)
 	Add(*StudentReport)	(int64, error)
