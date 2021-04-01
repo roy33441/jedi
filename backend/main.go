@@ -60,6 +60,13 @@ func initControllers(route *gin.Engine, db *sqlx.DB) {
 			repositories.NewReportTypeRepository(db),
 		),
 	)
+
+	controllers.NewStudentController(
+		route.Group("/students"),
+		*services.NewStudentService(
+			repositories.NewStudentRepository(db),
+		),
+	)
 }
 
 func main() {

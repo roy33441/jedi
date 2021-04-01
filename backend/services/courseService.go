@@ -1,6 +1,12 @@
 package services
 
-import "dev.azure.com/u8635137/_git/Jedi/backend/models"
+import (
+	"sort"
+	"strconv"
+	"strings"
+
+	"dev.azure.com/u8635137/_git/Jedi/backend/models"
+)
 
 type CourseService struct {
 	courseRepository models.CourseRepository
@@ -15,7 +21,15 @@ func NewCourseService(
 }
 
 func (service *CourseService) GetAll() (*[]models.Course, error){
-	return service.courseRepository.GetAll()
+	courses, err := service.courseRepository.GetAll()
+
+	if err != nil {
+		return nil, err
+	}
+
+	sortCoursesByName(courses)
+
+	return courses, nil
 }
 
 func (service *CourseService) GetCurrentCourses() (*[]models.Course, error) {
@@ -31,11 +45,13 @@ func (service *CourseService) GetCurrentCourses() (*[]models.Course, error) {
 		}		
 	}
 
+	sortCoursesByName(courses)
+
 	return courses, nil
 }
 
 func (service *CourseService) addStudents(course *models.Course) error {
-	students, err := service.studentRepository.GetStudentInCourse(course.Id)
+	students, err := service.studentRepository.GetByCourseId(strconv.Itoa(course.Id))
 
 	if err != nil {
 		return err
@@ -61,11 +77,11 @@ func (service *CourseService) GetById(courseId string) (*models.Course, error) {
 }
 
 func (service *CourseService) CountStudentInCourse(courseId string) (int, error) {
-	return service.courseRepository.CountStudentInCourse(courseId)
+	return service.studentRepository.CountInCourse(courseId)
 }
 
 func (service *CourseService) CountStudentArrivedInCourse(courseId string) (int, error) {
-	return service.courseRepository.CountStudentArrivedInCourse(courseId)
+	return service.studentRepository.CountArrivedInCourse(courseId)
 }
 
 func (service *CourseService) AddCourse(course models.Course) (*models.Course, error) {
@@ -78,4 +94,11 @@ func (service *CourseService) DeleteCourse(courseId string) (*models.Course, err
 
 func (service *CourseService) UpdateCourse(course models.Course) (*models.Course, error) {
 	return service.courseRepository.Update(course)
+}
+
+func sortCoursesByName(courses *[]models.Course) {
+	sort.SliceStable(*courses, func (i, j int) bool {
+		return strings.ReplaceAll((*courses)[i].Name, "\"", "") <
+				strings.ReplaceAll((*courses)[j].Name, "\"", "")
+	})
 }

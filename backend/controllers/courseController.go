@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"dev.azure.com/u8635137/_git/Jedi/backend/models"
@@ -62,9 +63,13 @@ func (controller *CourseController) addCourse(context *gin.Context) {
 	var course models.Course
 
 	if err := context.ShouldBind(&course); err != nil {
-		context.AbortWithError(
+		fmt.Println("Error: " + err.Error())
+
+		context.AbortWithStatusJSON(
 			http.StatusBadRequest,
-			err,
+			gin.H{
+				"error": "invalid variable",
+			},
 		)
 
 		return 
@@ -85,9 +90,13 @@ func (controller *CourseController) updateCourse(context *gin.Context) {
 	var course models.Course
 
 	if err := context.ShouldBind(&course); err != nil {
-		context.AbortWithError(
+		fmt.Println("Error: " + err.Error())
+
+		context.AbortWithStatusJSON(
 			http.StatusBadRequest,
-			err,
+			gin.H{
+				"error": "invalid variable",
+			},
 		)
 
 		return 

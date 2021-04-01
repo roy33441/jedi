@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"dev.azure.com/u8635137/_git/Jedi/backend/models"
@@ -33,9 +34,13 @@ func (controller *MissingReasonController) addMissingReason(context *gin.Context
 	var missingReason models.MissingReason
 
 	if err := context.ShouldBind(&missingReason); err != nil {
-		context.AbortWithError(
+		fmt.Println("Error: " + err.Error())
+
+		context.AbortWithStatusJSON(
 			http.StatusBadRequest,
-			err,
+			gin.H{
+				"error": "invalid variable",
+			},
 		)
 
 		return 
@@ -56,9 +61,13 @@ func (controller *MissingReasonController) updateMissingReason(context *gin.Cont
 	var missingReason models.MissingReason
 
 	if err := context.ShouldBind(&missingReason); err != nil {
-		context.AbortWithError(
+		fmt.Println("Error: " + err.Error())
+
+		context.AbortWithStatusJSON(
 			http.StatusBadRequest,
-			err,
+			gin.H{
+				"error": "invalid variable",
+			},
 		)
 
 		return 

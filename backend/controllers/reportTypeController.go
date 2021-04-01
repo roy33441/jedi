@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"dev.azure.com/u8635137/_git/Jedi/backend/models"
@@ -33,9 +34,13 @@ func (controller *ReportTypeController) addReportType(context *gin.Context) {
 	var reportType models.ReportType
 
 	if err := context.ShouldBind(&reportType); err != nil {
-		context.AbortWithError(
+		fmt.Println("Error: " + err.Error())
+
+		context.AbortWithStatusJSON(
 			http.StatusBadRequest,
-			err,
+			gin.H{
+				"error": "invalid variable",
+			},
 		)
 
 		return 
@@ -56,9 +61,13 @@ func (controller *ReportTypeController) updateReportType(context *gin.Context) {
 	var reportType models.ReportType
 
 	if err := context.ShouldBind(&reportType); err != nil {
-		context.AbortWithError(
+		fmt.Println("Error: " + err.Error())
+
+		context.AbortWithStatusJSON(
 			http.StatusBadRequest,
-			err,
+			gin.H{
+				"error": "invalid variable",
+			},
 		)
 
 		return 

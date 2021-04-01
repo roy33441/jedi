@@ -63,37 +63,7 @@ func (psqlRepo *PsqlCourseRepository) GetById(courseId string) (*models.Course, 
 	return &course, nil
 }
 
-func (psqlRepo *PsqlCourseRepository) CountStudentInCourse(courseId string) (int, error) {
-	var count int
 
-	err := psqlRepo.conn.Get(
-		&count,
-		queries.STUDENT_COUNT_IN_COURSE,
-		courseId,
-	)
-
-	if err != nil {
-		return 0, err
-	}
-
-	return count, nil
-}
-
-func (psqlRepo *PsqlCourseRepository) CountStudentArrivedInCourse(courseId string) (int, error) {
-	var count int
-
-	err := psqlRepo.conn.Get(
-		&count,
-		queries.STUDENT_GET_FROM_COURSE_ARRIVED,
-		courseId,
-	)
-
-	if err != nil {
-		return 0, nil
-	}
-
-	return count, nil
-}
 
 func (psqlRepo *PsqlCourseRepository) Add(course models.Course) (*models.Course, error) {
 	var courseRet models.Course
