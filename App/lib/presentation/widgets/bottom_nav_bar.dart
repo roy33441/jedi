@@ -35,7 +35,7 @@ class BottomNavBar extends StatelessWidget {
 
   void _changeRoute(index) {
     final newRoute = routes[index];
-    navigator.currentState!.pushNamed(newRoute.path);
+    navigator.currentState!.pushReplacementNamed(newRoute.path);
   }
 }
 
