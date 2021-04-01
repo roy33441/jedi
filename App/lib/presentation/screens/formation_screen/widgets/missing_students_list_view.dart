@@ -17,8 +17,11 @@ class MissingStudentsListView extends HookWidget {
     final missingStudents = context.select((StudentsBloc bloc) =>
         (bloc.state as StudentFetchSuccess).missingStudents);
 
-    return _buildMissingList(_controller, missingStudents)
-        .addRtlAndScroll(controller: _controller, mediaQuerySize: size);
+    return _buildMissingList(_controller, missingStudents).addRtlAndScroll(
+      context: context,
+      controller: _controller,
+      mediaQuerySize: size,
+    );
   }
 
   ListView _buildMissingList(

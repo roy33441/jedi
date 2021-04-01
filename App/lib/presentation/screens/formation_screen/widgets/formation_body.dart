@@ -17,6 +17,9 @@ class FormationBody extends StatelessWidget {
             showIndicator: false,
             screenPortion: 0.18,
           ),
+          SizedBox(
+            height: size.height * 0.02,
+          ),
           MissingStudentsListView(),
           Divider(
             color: Colors.black,

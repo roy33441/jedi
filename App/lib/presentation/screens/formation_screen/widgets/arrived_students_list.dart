@@ -19,8 +19,11 @@ class ArrivedStudentsListView extends HookWidget {
     final arrivedStudents = context.select((StudentsBloc bloc) =>
         (bloc.state as StudentFetchSuccess).arrivedStudents);
 
-    return _buildArrivedList(_controller, arrivedStudents)
-        .addRtlAndScroll(controller: _controller, mediaQuerySize: size);
+    return _buildArrivedList(_controller, arrivedStudents).addRtlAndScroll(
+      context: context,
+      controller: _controller,
+      mediaQuerySize: size,
+    );
   }
 
   ListView _buildArrivedList(
