@@ -27,7 +27,7 @@ class StudentReport extends Equatable {
       'student_report_id': studentReportId,
       'student_id': studentId,
       'report_type': reportType.toJson(),
-      'date_reported': dateReported.millisecondsSinceEpoch,
+      'date_reported': DateFormat('y-M-d').format(dateReported),
     };
   }
 
