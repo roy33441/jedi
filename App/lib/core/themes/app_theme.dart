@@ -9,8 +9,10 @@ class AppTheme {
   static const Color text2_light = Color(0xFFC3BFBF);
   static const Color text1_light = Color(0xFF8E8E93);
   static const Color subtitle_light = Colors.white;
-
+  static const Color error_light = Color(0xFFCE3232);
+  static const Color success_color = Color(0xFF47B560);
   static final lightTheme = ThemeData(
+    errorColor: error_light,
     bottomAppBarColor: info_light,
     highlightColor: info_light,
     textTheme: GoogleFonts.heeboTextTheme(
