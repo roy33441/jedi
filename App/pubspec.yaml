@@ -17,6 +17,7 @@ dependencies:
   dio: ^4.0.0
   equatable: ^2.0.0
   flutter_bloc: ^7.0.0
+  flutter_hooks: ^0.16.0
   google_fonts: ^2.0.0
   hydrated_bloc: ^7.0.0
 
