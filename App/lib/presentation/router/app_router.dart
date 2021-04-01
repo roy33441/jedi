@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jedi/core/constants/strings.dart';
 import 'package:jedi/presentation/screens/formation_screen/formation_screen.dart';
+import 'package:jedi/presentation/screens/missing_screen/missing_screen.dart';
 import '../../core/exceptions/route_exception.dart';
 import '../screens/home_screen/home_screen.dart';
 
@@ -46,6 +47,10 @@ class AppRouter {
       case formation:
         return MaterialPageRoute(
           builder: (_) => FormationScreen(),
+        );
+      case missings:
+        return MaterialPageRoute(
+          builder: (_) => MissingScreen(),
         );
       default:
         throw const RouteException('Route not found!');
