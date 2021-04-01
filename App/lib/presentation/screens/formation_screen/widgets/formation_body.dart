@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:jedi/presentation/screens/formation_screen/widgets/arrived_students_list.dart';
 
@@ -9,7 +7,8 @@ import 'missing_students_list_view.dart';
 class FormationBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
+
     return Container(
       child: Column(
         children: [
