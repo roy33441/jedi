@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class StudentArrivedFlushBar extends Flushbar {
   StudentArrivedFlushBar({required String studentName})
       : super(
-          margin: EdgeInsets.all(4),
+          margin: EdgeInsets.all(10),
           borderRadius: BorderRadius.circular(8),
           messageText: RichText(
             textAlign: TextAlign.center,
