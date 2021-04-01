@@ -18,7 +18,7 @@ class Student extends Equatable {
     required this.isPresent,
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'student_id': studentId,
       'certificate_number': certificateNumber,
@@ -39,8 +39,6 @@ class Student extends Equatable {
       isPresent: json['is_present'],
     );
   }
-
-  String toJson() => json.encode(toMap());
 
   @override
   List<Object> get props => [

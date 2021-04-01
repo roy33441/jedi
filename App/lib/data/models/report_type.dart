@@ -10,10 +10,10 @@ class ReportType extends Equatable {
   @override
   List<Object?> get props => [reportTypeId, name];
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
-      'reportTypeId': reportTypeId,
-      'name': name,
+      'report_type_id': reportTypeId,
+      'report_type_name': name,
     };
   }
 
@@ -23,6 +23,4 @@ class ReportType extends Equatable {
       name: map['report_type_name'],
     );
   }
-
-  String toJson() => json.encode(toMap());
 }
