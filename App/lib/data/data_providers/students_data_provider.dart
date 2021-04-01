@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:jedi/core/constants/rest_routes.dart';
 import 'package:jedi/data/data_providers/remote_data_provider.dart';

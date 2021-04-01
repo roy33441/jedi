@@ -13,4 +13,7 @@ class Strings {
   static const total = 'סה"כ';
   static const ready_to_scan = 'מוכן לסרוק';
   static const how_to_scan = 'הצמד את השוחר לטלפון\n בכדי להזין דיווח';
+
+  // Formation
+  static const saveReport = 'שמור דיווח';
 }
