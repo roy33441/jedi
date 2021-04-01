@@ -95,7 +95,7 @@ func (psqlRepo *PsqlCourseRepository) CountStudentArrivedInCourse(courseId strin
 	return count, nil
 }
 
-func (psqlRepo *PsqlCourseRepository) AddCourse(course models.Course) (*models.Course, error) {
+func (psqlRepo *PsqlCourseRepository) Add(course models.Course) (*models.Course, error) {
 	var courseRet models.Course
 
 	rows, err := psqlRepo.conn.NamedQuery(
@@ -116,7 +116,7 @@ func (psqlRepo *PsqlCourseRepository) AddCourse(course models.Course) (*models.C
 	return &courseRet, nil
 }
 
-func (psqlRepo *PsqlCourseRepository) DeleteCourse(courseId string) (*models.Course, error) {
+func (psqlRepo *PsqlCourseRepository) Delete(courseId string) (*models.Course, error) {
 	var courseRet models.Course
 
 	err := psqlRepo.conn.Get(
@@ -132,7 +132,7 @@ func (psqlRepo *PsqlCourseRepository) DeleteCourse(courseId string) (*models.Cou
 	return &courseRet, nil
 } 
 
-func (psqlRepo *PsqlCourseRepository) UpdateCourse(course models.Course) (*models.Course, error) {
+func (psqlRepo *PsqlCourseRepository) Update(course models.Course) (*models.Course, error) {
 	var courseRet models.Course
 
 	rows, err := psqlRepo.conn.NamedQuery(

@@ -18,7 +18,7 @@ type CourseRepository interface {
 	GetById(string)						(*Course, error)
 	CountStudentInCourse(string)		(int, error)
 	CountStudentArrivedInCourse(string)	(int, error)
-	AddCourse(Course)					(*Course, error)
-	DeleteCourse(string)				(*Course, error)
-	UpdateCourse(Course)				(*Course, error)
+	Add(Course)							(*Course, error)
+	Delete(string)						(*Course, error)
+	Update(Course)						(*Course, error)
 }

@@ -69,13 +69,13 @@ func (service *CourseService) CountStudentArrivedInCourse(courseId string) (int,
 }
 
 func (service *CourseService) AddCourse(course models.Course) (*models.Course, error) {
-	return service.courseRepository.AddCourse(course)
+	return service.courseRepository.Add(course)
 }
 
 func (service *CourseService) DeleteCourse(courseId string) (*models.Course, error) {
-	return service.courseRepository.DeleteCourse(courseId)
+	return service.courseRepository.Delete(courseId)
 }
 
 func (service *CourseService) UpdateCourse(course models.Course) (*models.Course, error) {
-	return service.courseRepository.UpdateCourse(course)
+	return service.courseRepository.Update(course)
 }

@@ -37,6 +37,24 @@ func initDB() *sqlx.DB {
 	return db
 }
 
+func initControllers(route *gin.Engine, db *sqlx.DB) {
+	controllers.NewCourseController(
+		route.Group("/courses"),
+		*services.NewCourseService(
+			repositories.NewCourseRepository(db),
+			repositories.NewStudentRepository(db),
+		),
+
+	)
+
+	controllers.NewMissingReasonController(
+		route.Group("/missingReasons"),
+		*services.NewMissingReasonService(
+			repositories.NewMissingReasonRepository(db),
+		),
+	)
+}
+
 func main() {
 	db := initDB()
 	defer db.Close()
@@ -46,13 +64,7 @@ func main() {
 	route.Use(cors.Default())
 	bindAddress := fmt.Sprintf("%s:%s", os.Getenv("HOST"), os.Getenv("PORT"))
 
-	controllers.NewCourseController(
-		route.Group("/courses"),
-		*services.NewCourseService(
-			repositories.NewCourseRepository(db),
-			repositories.NewStudentRepository(db),
-		),
-	)
+	initControllers(route, db)
 
 	route.Run(bindAddress)
 }
