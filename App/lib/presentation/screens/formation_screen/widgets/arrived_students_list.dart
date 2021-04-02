@@ -50,7 +50,7 @@ class ArrivedStudentsListView extends HookWidget {
           ),
           leading: Icon(
             Icons.circle,
-            color: AppTheme.success_color,
+            color: Theme.of(context).success,
           ),
         );
       },

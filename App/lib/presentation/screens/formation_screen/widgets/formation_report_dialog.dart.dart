@@ -47,7 +47,9 @@ class FormationReportDialog extends StatelessWidget {
           child: SizedBox(
             height: circularProgressIndicatorSize,
             width: circularProgressIndicatorSize,
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(Theme.of(context).success),
+            ),
           ),
         ),
       ),
@@ -100,7 +102,7 @@ class FormationReportDialog extends StatelessWidget {
                 onPressed: () {
                   context.read<StudentReportCubit>().saveStudentReports();
                 },
-                color: AppTheme.success_color,
+                color: Theme.of(context).success,
               ),
             )
           ],
@@ -121,7 +123,7 @@ class FormationReportDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Checkbox(
-                  activeColor: AppTheme.success_color,
+                  activeColor: Theme.of(context).success,
                   value: studentReportState
                       .doesHaveReportFromType(type.reportTypeId),
                   onChanged: (value) {

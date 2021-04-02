@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jedi/core/constants/strings.dart';
 import 'package:jedi/presentation/screens/formation_screen/widgets/arrived_students_list.dart';
 
 import '../../../widgets/statistics_container.dart';
@@ -24,7 +25,12 @@ class FormationBody extends StatelessWidget {
             color: Colors.black,
             thickness: 1.5,
           ),
-          ArrivedStudentsListView(),
+          Text(
+            Strings.report_hint,
+            style:
+                Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 15),
+          ),
+          Expanded(child: ArrivedStudentsListView()),
         ],
       ),
     );

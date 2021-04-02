@@ -41,14 +41,14 @@ class App extends StatelessWidget {
               ),
             ),
           ),
-          BlocProvider(
+          BlocProvider<ReportTypeCubit>(
             create: (_) => ReportTypeCubit(
               reportTypeRepository: ReportTypeRepository(
                 remoteDataProvider: ReportTypeRemoteDataProvider(client: dio),
               ),
             ),
           ),
-          BlocProvider(
+          BlocProvider<StudentReportCubit>(
             create: (_) => StudentReportCubit(
               repository: StudentReportRepository(
                 remoteDataProvider:

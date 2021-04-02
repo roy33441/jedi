@@ -11,6 +11,7 @@ class AppTheme {
   static const Color subtitle_light = Colors.white;
   static const Color error_light = Color(0xFFCE3232);
   static const Color success_color = Color(0xFF47B560);
+
   static final lightTheme = ThemeData(
     errorColor: error_light,
     bottomAppBarColor: info_light,
@@ -30,4 +31,8 @@ class AppTheme {
     primarySwatch: Colors.blue,
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
+}
+
+extension ThemeDataColors on ThemeData {
+  Color get success => AppTheme.success_color;
 }

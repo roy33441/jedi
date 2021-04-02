@@ -16,4 +16,5 @@ class Strings {
 
   // Formation
   static const saveReport = 'שמור דיווח';
+  static const report_hint = 'לחיצה על חניך שהגיע תאפשר דיווח על דיגום';
 }
