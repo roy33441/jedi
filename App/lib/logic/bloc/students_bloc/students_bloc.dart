@@ -53,8 +53,7 @@ class StudentsBloc extends Bloc<StudentsEvent, StudentsState> {
     if (currState is StudentFetchSuccess) {
       final List<StudentEntity> students = List.of(currState.students);
       students[students.indexWhere(
-              (student) => student.studentId == studentEntity.studentId)] =
-          studentEntity;
+          (student) => student.id == studentEntity.id)] = studentEntity;
       return students;
     }
     // TODO throw exception clause

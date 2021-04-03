@@ -24,8 +24,8 @@ class StudentReportTodayFetchSuccess extends StudentReportState {
   List<Object> get props => [studentReports];
 
   bool doesHaveReportFromType(int reportTypeId) =>
-      studentReports.indexWhere((studentReport) =>
-          studentReport.reportType.reportTypeId == reportTypeId) !=
+      studentReports.indexWhere(
+          (studentReport) => studentReport.reportType.id == reportTypeId) !=
       -1;
 }
 

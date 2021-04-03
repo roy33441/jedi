@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:jedi/data/models/student.dart';
 
 class StudentEntity extends Equatable {
-  final int studentId;
+  final int id;
   final int certificateNumber;
   final String fullName;
   final int studentNumber;
@@ -11,7 +11,7 @@ class StudentEntity extends Equatable {
   final bool isPresent;
 
   StudentEntity(
-      {required this.studentId,
+      {required this.id,
       required this.certificateNumber,
       required this.fullName,
       required this.studentNumber,
@@ -20,7 +20,7 @@ class StudentEntity extends Equatable {
 
   @override
   List<Object> get props => [
-        studentId,
+        id,
         certificateNumber,
         fullName,
         studentNumber,
@@ -30,7 +30,7 @@ class StudentEntity extends Equatable {
 
   factory StudentEntity.fromModel(Student student) {
     return StudentEntity(
-        studentId: student.studentId,
+        id: student.id,
         certificateNumber: student.certificateNumber,
         fullName: student.fullName,
         studentNumber: student.studentNumber,
@@ -40,7 +40,7 @@ class StudentEntity extends Equatable {
 
   Student toModel() {
     return Student(
-        studentId: studentId,
+        id: id,
         certificateNumber: certificateNumber,
         fullName: fullName,
         studentNumber: studentNumber,
@@ -57,7 +57,7 @@ class StudentEntity extends Equatable {
     bool? isPresent,
   }) {
     return StudentEntity(
-      studentId: studentId ?? this.studentId,
+      id: studentId ?? this.id,
       certificateNumber: certificateNumber ?? this.certificateNumber,
       fullName: fullName ?? this.fullName,
       studentNumber: studentNumber ?? this.studentNumber,

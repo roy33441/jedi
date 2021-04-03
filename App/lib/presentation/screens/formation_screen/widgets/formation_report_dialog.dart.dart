@@ -124,12 +124,10 @@ class FormationReportDialog extends StatelessWidget {
               children: [
                 Checkbox(
                   activeColor: Theme.of(context).success,
-                  value: studentReportState
-                      .doesHaveReportFromType(type.reportTypeId),
+                  value: studentReportState.doesHaveReportFromType(type.id),
                   onChanged: (value) {
                     if (value == false) {
-                      studentReportCubit
-                          .removeReportToStudent(type.reportTypeId);
+                      studentReportCubit.removeReportToStudent(type.id);
                     } else {
                       studentReportCubit.addReportToStudent(
                         StudentReportEntity(

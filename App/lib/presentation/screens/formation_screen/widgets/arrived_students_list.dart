@@ -69,7 +69,7 @@ class ArrivedStudentsListView extends HookWidget {
       BuildContext context, StudentEntity clickedStudent) {
     context
         .read<StudentReportCubit>()
-        .getStudentReportsToday(clickedStudent.studentId);
+        .getStudentReportsToday(clickedStudent.id);
 
     return showDialog(
       context: context,

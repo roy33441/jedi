@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class Student extends Equatable {
-  final int studentId;
+  final int id;
   final int certificateNumber;
   final String fullName;
   final int studentNumber;
@@ -10,7 +10,7 @@ class Student extends Equatable {
   final bool isPresent;
 
   Student({
-    required this.studentId,
+    required this.id,
     required this.certificateNumber,
     required this.fullName,
     required this.studentNumber,
@@ -20,7 +20,7 @@ class Student extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'student_id': studentId,
+      'student_id': id,
       'certificate_number': certificateNumber,
       'full_name': fullName,
       'student_number': studentNumber,
@@ -31,7 +31,7 @@ class Student extends Equatable {
 
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
-      studentId: json['student_id'],
+      id: json['student_id'],
       certificateNumber: json['certificate_number'],
       fullName: json['full_name'],
       studentNumber: json['student_number'],
@@ -42,7 +42,7 @@ class Student extends Equatable {
 
   @override
   List<Object> get props => [
-        studentId,
+        id,
         certificateNumber,
         fullName,
         studentNumber,

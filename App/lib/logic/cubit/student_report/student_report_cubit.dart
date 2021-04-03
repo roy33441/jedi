@@ -61,7 +61,7 @@ class StudentReportCubit extends Cubit<StudentReportState> {
         StudentReportTodayFetchSuccess(
           studentReports: List.of(currentState.studentReports)
               .where((studentReport) =>
-                  studentReport.reportType.reportTypeId != reportTypeId)
+                  studentReport.reportType.id != reportTypeId)
               .toList(),
           studentId: currentState.studentId,
         ),
