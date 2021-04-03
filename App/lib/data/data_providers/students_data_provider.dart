@@ -24,7 +24,7 @@ class StudentsRemoteDataProvider extends RemoteDataProvider {
       throw Exception();
     }
 
-    return Student.fromJson(json.decode(response.data));
+    return Student.fromJson(response.data);
   }
 
   Future<Student> studentLeft(int cardId, int courseId) async {
@@ -36,6 +36,6 @@ class StudentsRemoteDataProvider extends RemoteDataProvider {
       throw Exception();
     }
 
-    return Student.fromJson(json.decode(response.data));
+    return Student.fromJson(response.data);
   }
 }
