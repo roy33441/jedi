@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jedi/core/themes/app_theme.dart';
 import 'package:jedi/logic/bloc/students_bloc/students_bloc.dart';
 import 'package:jedi/presentation/screens/home_screen/widgets/student_arrived_flushbar.dart';
 
@@ -20,7 +21,11 @@ class HomeScreen extends StatelessWidget {
             current is StudentFetchSuccess),
         builder: (context, state) {
           if (state is StudentFetchInProgress) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(Theme.of(context).success),
+              ),
+            );
           }
           return HomeBody();
         },
