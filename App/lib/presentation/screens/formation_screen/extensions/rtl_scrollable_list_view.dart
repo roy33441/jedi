@@ -5,6 +5,7 @@ extension RTLScrollableListView on ListView {
       {required BuildContext context,
       required ScrollController controller,
       required Size mediaQuerySize}) {
+    print(mediaQuerySize.width);
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
@@ -13,7 +14,8 @@ extension RTLScrollableListView on ListView {
         child: Container(
           height: mediaQuerySize.height * 0.35,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding:
+                EdgeInsets.symmetric(horizontal: mediaQuerySize.width * 0.03),
             child: Scrollbar(
               controller: controller,
               radius: Radius.circular(5),
