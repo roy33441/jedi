@@ -5,11 +5,10 @@ type ReportType struct {
 	Name	string	`json:"name" db:"report_type_name"`
 }
 
-const reportType_tablename string = "t_report_type"
-
 type ReportTypeRepository interface {
 	GetAll()			(*[]ReportType, error)
-	Add(*ReportType)	(int64, error)
+	Add(ReportType)		(*ReportType, error)
+	Update(ReportType)	(*ReportType, error)
+	Delete(int)			(*ReportType, error)
 	GetById(int)		(*ReportType, error)
-	DeleteById(int)		(*ReportType, error)
 }

@@ -47,7 +47,7 @@ func (psqlRepo *PsqlCourseRepository) GetCurrentCourses() (*[]models.Course, err
 	return &courses, nil
 }
 
-func (psqlRepo *PsqlCourseRepository) GetById(courseId string) (*models.Course, error) {
+func (psqlRepo *PsqlCourseRepository) GetById(courseId int) (*models.Course, error) {
 	course := models.Course{}
 
 	err := psqlRepo.conn.Get(
@@ -63,39 +63,9 @@ func (psqlRepo *PsqlCourseRepository) GetById(courseId string) (*models.Course, 
 	return &course, nil
 }
 
-func (psqlRepo *PsqlCourseRepository) CountStudentInCourse(courseId string) (int, error) {
-	var count int
 
-	err := psqlRepo.conn.Get(
-		&count,
-		queries.STUDENT_COUNT_IN_COURSE,
-		courseId,
-	)
 
-	if err != nil {
-		return 0, err
-	}
-
-	return count, nil
-}
-
-func (psqlRepo *PsqlCourseRepository) CountStudentArrivedInCourse(courseId string) (int, error) {
-	var count int
-
-	err := psqlRepo.conn.Get(
-		&count,
-		queries.STUDENT_GET_FROM_COURSE_ARRIVED,
-		courseId,
-	)
-
-	if err != nil {
-		return 0, nil
-	}
-
-	return count, nil
-}
-
-func (psqlRepo *PsqlCourseRepository) AddCourse(course models.Course) (*models.Course, error) {
+func (psqlRepo *PsqlCourseRepository) Add(course models.Course) (*models.Course, error) {
 	var courseRet models.Course
 
 	rows, err := psqlRepo.conn.NamedQuery(
@@ -116,7 +86,7 @@ func (psqlRepo *PsqlCourseRepository) AddCourse(course models.Course) (*models.C
 	return &courseRet, nil
 }
 
-func (psqlRepo *PsqlCourseRepository) DeleteCourse(courseId string) (*models.Course, error) {
+func (psqlRepo *PsqlCourseRepository) Delete(courseId int) (*models.Course, error) {
 	var courseRet models.Course
 
 	err := psqlRepo.conn.Get(
@@ -132,7 +102,7 @@ func (psqlRepo *PsqlCourseRepository) DeleteCourse(courseId string) (*models.Cou
 	return &courseRet, nil
 } 
 
-func (psqlRepo *PsqlCourseRepository) UpdateCourse(course models.Course) (*models.Course, error) {
+func (psqlRepo *PsqlCourseRepository) Update(course models.Course) (*models.Course, error) {
 	var courseRet models.Course
 
 	rows, err := psqlRepo.conn.NamedQuery(

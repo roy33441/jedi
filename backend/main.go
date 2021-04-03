@@ -37,6 +37,45 @@ func initDB() *sqlx.DB {
 	return db
 }
 
+func initControllers(route *gin.Engine, db *sqlx.DB) {
+	courseRepo := repositories.NewCourseRepository(db)
+	studentRepo := repositories.NewStudentRepository(db)
+	missingReasonRepo := repositories.NewMissingReasonRepository(db)
+	reportTypeRepo := repositories.NewReportTypeRepository(db)
+	studentReportRepo := repositories.NewStudentReportRepository(db)
+	missingStudentRepo := repositories.NewMissingStudentRepository(db)
+
+	studentService := services.NewStudentService(studentRepo)
+	courseService := services.NewCourseService(courseRepo, studentRepo)
+	missingReasonService := services.NewMissingReasonService(missingReasonRepo)
+	reportTypeService := services.NewReportTypeService(reportTypeRepo)
+	studentReportService := services.NewStudentReportService(studentReportRepo, reportTypeRepo)
+	missingStudentService := services.NewMissingStudentService(missingStudentRepo, missingReasonRepo)
+
+	controllers.NewCourseController(
+		route.Group("/course"),
+		*courseService,
+		*studentService,
+	)
+
+	controllers.NewMissingReasonController(
+		route.Group("/missingReasons"),
+		*missingReasonService,
+	)
+
+	controllers.NewReportTypeController(
+		route.Group("/reportTypes"),
+		*reportTypeService,
+	)
+
+	controllers.NewStudentController(
+		route.Group("/students"),
+		*studentService,
+		*studentReportService,
+		*missingStudentService,
+	)
+}
+
 func main() {
 	db := initDB()
 	defer db.Close()
@@ -46,13 +85,7 @@ func main() {
 	route.Use(cors.Default())
 	bindAddress := fmt.Sprintf("%s:%s", os.Getenv("HOST"), os.Getenv("PORT"))
 
-	controllers.NewCourseController(
-		route.Group("/courses"),
-		*services.NewCourseService(
-			repositories.NewCourseRepository(db),
-			repositories.NewStudentRepository(db),
-		),
-	)
+	initControllers(route, db)
 
 	route.Run(bindAddress)
 }

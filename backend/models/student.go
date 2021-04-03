@@ -9,8 +9,14 @@ type Student struct {
 	IsPresent			bool 	`json:"is present" db:"is_present"`
 }
 
-const student_tablename string = "t_student"
-
 type StudentRepository interface {
-	GetStudentInCourse(int)	(*[]Student, error)
+	GetByCourseId(int)					(*[]Student, error)
+	CountInCourse(int)					(int, error)
+	CountArrivedInCourse(int)			(int, error)
+	GetAll()							(*[]Student, error)
+	GetByCardId(int)					(*Student, error)
+	UpdatePresent(int, bool)			(*Student, error)
+	Add(Student)						(*Student, error)
+	Delete(int)							(*Student, error)
+	Update(Student)						(*Student, error)
 }
