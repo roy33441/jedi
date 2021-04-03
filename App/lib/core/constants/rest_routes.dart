@@ -10,6 +10,12 @@ class RestRoutes {
 
   // Report Type
   static final reportTypes = '/reportTypes';
+
+  // Student Report
   static final studentReportsByDate =
       (int studentId, String date) => '/students/$studentId/reportTypes/$date';
+
+  // StudentMissing
+  static final missingStudentsByDate =
+      (String date) => '/students/missings/$date';
 }
