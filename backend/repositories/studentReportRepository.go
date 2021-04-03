@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"database/sql"
+	"errors"
 	"time"
 
 	"dev.azure.com/u8635137/_git/Jedi/backend/models"
@@ -19,7 +21,7 @@ func NewStudentReportRepository(conn *sqlx.DB) *PsqlStudentReportRepository {
 func (psqlRepo *PsqlStudentReportRepository) DeleteByIdAndDate(
 	studentId int,
 	date time.Time,
-	) (*models.StudentReport, error) {
+) (*models.StudentReport, error) {
 	var studentReport models.StudentReport
 
 	err := psqlRepo.conn.Get(
@@ -29,7 +31,7 @@ func (psqlRepo *PsqlStudentReportRepository) DeleteByIdAndDate(
 		date,
 	)
 
-	if err != nil {
+	if err != nil && !errors.Is(err, sql.ErrNoRows) {
 		return nil, err
 	}
 
@@ -37,8 +39,8 @@ func (psqlRepo *PsqlStudentReportRepository) DeleteByIdAndDate(
 }
 
 func (psqlRepo *PsqlStudentReportRepository) Add(
-		studentReport models.StudentReport,
-	) (*models.StudentReport, error) {
+	studentReport models.StudentReport,
+) (*models.StudentReport, error) {
 	var studentReportRet models.StudentReport
 
 	rows, err := psqlRepo.conn.NamedQuery(
@@ -59,8 +61,8 @@ func (psqlRepo *PsqlStudentReportRepository) Add(
 	return &studentReportRet, nil
 }
 func (psqlRepo *PsqlStudentReportRepository) GetByStudentIdInDay(
-		id int, day time.Time,
-	) (*[]models.StudentReport, error) {
+	id int, day time.Time,
+) (*[]models.StudentReport, error) {
 	studentReports := []models.StudentReport{}
 
 	err := psqlRepo.conn.Select(

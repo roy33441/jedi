@@ -8,7 +8,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-const SchemaName = "passim"
+const SchemaName = "passimprod"
 
 func ConnectDB() (*sqlx.DB, error) {
 	info := fmt.Sprintf(

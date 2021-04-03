@@ -10,36 +10,36 @@ import (
 )
 
 type StudentController struct {
-	studentService services.StudentService
-	studentReportService services.StudentReportService
+	studentService        services.StudentService
+	studentReportService  services.StudentReportService
 	missingStudentService services.MissingStudentService
 }
 
 func NewStudentController(
-	router *gin.RouterGroup, 
+	router *gin.RouterGroup,
 	studentService services.StudentService,
 	studentReportService services.StudentReportService,
 	missingStudentService services.MissingStudentService) {
-		controller := StudentController{
-			studentService, studentReportService, missingStudentService,
-		}
-		
-		router.GET("/card/:cardId", controller.getByCardId)
-		router.GET("/", controller.getAll)
-		router.GET("/course/:courseId", controller.getByCourse)
-		router.GET("/studentId/:id/reportTypes/:day", controller.getStudentReportDay)
-		router.GET("/missings/:day", controller.getMissingStudents)
-		
-		router.DELETE("/:id", controller.deleteStudent)
-	
-		router.POST("/", controller.addStudent)
+	controller := StudentController{
+		studentService, studentReportService, missingStudentService,
+	}
 
-		router.PUT("/", controller.updateStudent)
-		router.PUT("/studentId/:id/reportTypes/:day", controller.saveStudentReportDay)
+	router.GET("/", controller.getAll)
+	router.GET("/studentId/:id/reportTypes/:day", controller.getStudentReportDay)
+	router.GET("/course/:courseId", controller.getByCourse)
+	router.GET("/card/:cardId", controller.getByCardId)
+	router.GET("/missings/:day", controller.getMissingStudents)
 
-		router.PATCH("/card/:cardId/arrived/course/:courseId", controller.updateStudentArrived)
-		router.PATCH("/card/:cardId/left/course/:courseId", controller.updateStudentLeft)
-		router.PATCH("/exit", controller.reportStudentsExit)
+	router.DELETE("/:id", controller.deleteStudent)
+
+	router.POST("/", controller.addStudent)
+
+	router.PUT("/", controller.updateStudent)
+	router.PUT("/studentId/:id/reportTypes/:day", controller.saveStudentReportDay)
+
+	router.PATCH("/card/:cardId/arrived/course/:courseId", controller.updateStudentArrived)
+	router.PATCH("/card/:cardId/left/course/:courseId", controller.updateStudentLeft)
+	router.PATCH("/exit", controller.reportStudentsExit)
 }
 
 func (controller *StudentController) getMissingStudents(context *gin.Context) {
@@ -56,14 +56,14 @@ func (controller *StudentController) getMissingStudents(context *gin.Context) {
 
 func (controller *StudentController) saveStudentReportDay(context *gin.Context) {
 	var reportTypeIds []int
-	
+
 	studentId := new(int)
 	day := new(time.Time)
 
 	if !utils.CheckBodyContentBind(context, &reportTypeIds) {
-		return 
+		return
 	}
-	
+
 	if !utils.CheckConvertParamToInt(context, context.Param("id"), studentId) {
 		return
 	}
@@ -94,7 +94,7 @@ func (controller *StudentController) getStudentReportDay(context *gin.Context) {
 	result, err := controller.studentReportService.GetStudentReportDay(
 		*id, *day,
 	)
-	
+
 	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
@@ -132,7 +132,7 @@ func (controller *StudentController) updateStudent(context *gin.Context) {
 	var student models.Student
 
 	if !utils.CheckBodyContentBind(context, &student) {
-		return 
+		return
 	}
 
 	result, err := controller.studentService.UpdateStudent(student)

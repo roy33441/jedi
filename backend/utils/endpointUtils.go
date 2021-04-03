@@ -80,7 +80,7 @@ func HandleStandardHTTPRequest(context *gin.Context, data interface{}, err error
 			},
 		)
 
-		return 
+		return
 	}
 
 	context.JSON(

@@ -8,34 +8,34 @@ import (
 
 type StudentReportService struct {
 	studentReportRepository models.StudentReportRepository
-	reportTypeRepository 	models.ReportTypeRepository
+	reportTypeRepository    models.ReportTypeRepository
 }
 
 func NewStudentReportService(
-		studentReportRepository models.StudentReportRepository,
-		reportTypeRepository 	models.ReportTypeRepository,
-	) *StudentReportService {
+	studentReportRepository models.StudentReportRepository,
+	reportTypeRepository models.ReportTypeRepository,
+) *StudentReportService {
 	return &StudentReportService{studentReportRepository, reportTypeRepository}
 }
 
 func (service *StudentReportService) AddStudentReportDay(
-		studentId int, 
-		day time.Time, 
-		reportTypeIds []int,
-	) (*[]models.StudentReport, error) {
+	studentId int,
+	day time.Time,
+	reportTypeIds []int,
+) (*[]models.StudentReport, error) {
 	studentReports := []models.StudentReport{}
+
+	_, err := service.studentReportRepository.DeleteByIdAndDate(studentId, day)
+
+	if err != nil {
+		return nil, err
+	}
 
 	for _, reportTypeId := range reportTypeIds {
 
-		_, err := service.studentReportRepository.DeleteByIdAndDate(studentId, day)
-
-		if err != nil {
-			return nil, err
-		}
-
 		studentsReport, err := service.studentReportRepository.Add(
 			models.StudentReport{
-				StudentId: studentId,
+				StudentId:    studentId,
 				DateReported: day,
 				ReportTypeId: reportTypeId,
 			},
@@ -58,8 +58,8 @@ func (service *StudentReportService) AddStudentReportDay(
 }
 
 func (service *StudentReportService) GetStudentReportDay(
-		studentId int, day time.Time,
-	) (*[]models.StudentReport, error) {
+	studentId int, day time.Time,
+) (*[]models.StudentReport, error) {
 	studentReports, err := service.studentReportRepository.GetByStudentIdInDay(studentId, day)
 
 	if err != nil {
