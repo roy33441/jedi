@@ -2,10 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jedi/data/data_providers/report_type_data_provider.dart';
+import 'package:jedi/data/data_providers/student_missing_provider.dart';
 import 'package:jedi/data/data_providers/student_report_provider.dart';
 import 'package:jedi/data/repositories/report_type_repository.dart';
+import 'package:jedi/data/repositories/student_missing_repository.dart';
 import 'package:jedi/data/repositories/student_report_repository.dart';
 import 'package:jedi/logic/cubit/report_type/report_type_cubit.dart';
+import 'package:jedi/logic/cubit/student_missing/student_missing_cubit.dart';
 import 'package:jedi/logic/cubit/student_report/student_report_cubit.dart';
 import 'package:jedi/presentation/widgets/navigator_view.dart';
 
@@ -53,6 +56,14 @@ class App extends StatelessWidget {
               repository: StudentReportRepository(
                 remoteDataProvider:
                     StudentReportRemoteDataProvider(client: dio),
+              ),
+            ),
+          ),
+          BlocProvider<StudentMissingCubit>(
+            create: (_) => StudentMissingCubit(
+              repository: StudentMissingRepository(
+                remoteDataProvider:
+                    StudentMissingRemoteDataProvider(client: dio),
               ),
             ),
           )
