@@ -15,13 +15,15 @@ class StudentsRepository {
         .toList();
   }
 
-  Future<StudentEntity> studentArrived(int studentId) async {
+  Future<StudentEntity> studentArrived(int cardId, int courseId) async {
     return StudentEntity.fromModel(
-        (await remoteDataProvider.studentArrived(studentId)));
+      (await remoteDataProvider.studentArrived(cardId, courseId)),
+    );
   }
 
-  Future<StudentEntity> studentLeft(int studentId) async {
+  Future<StudentEntity> studentLeft(int cardId, int courseId) async {
     return StudentEntity.fromModel(
-        (await remoteDataProvider.studentLeft(studentId)));
+      (await remoteDataProvider.studentLeft(cardId, courseId)),
+    );
   }
 }

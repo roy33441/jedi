@@ -14,15 +14,15 @@ class MissingReason extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'reason_id': id,
-      'reason_text': text,
+      'id': id,
+      'text': text,
     };
   }
 
   factory MissingReason.fromJson(Map<String, dynamic> map) {
     return MissingReason(
-      id: map['reason_id'],
-      text: map['reason_text'],
+      id: map['id'],
+      text: map['text'],
     );
   }
 }

@@ -29,7 +29,7 @@ void main() {
 class App extends StatelessWidget {
   final dio = Dio(
     BaseOptions(
-      baseUrl: 'https://05ba4dd0-77e0-4ece-b9cd-ff89bcff59e1.mock.pstmn.io',
+      baseUrl: 'http://10.0.2.2:8080',
     ),
   );
 

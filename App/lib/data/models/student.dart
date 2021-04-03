@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'package:equatable/equatable.dart';
+import 'package:jedi/core/utils/format_date.dart';
 
 class Student extends Equatable {
   final int id;
@@ -20,7 +20,7 @@ class Student extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'student_id': id,
+      'id': id,
       'certificate_number': certificateNumber,
       'full_name': fullName,
       'student_number': studentNumber,
@@ -31,7 +31,7 @@ class Student extends Equatable {
 
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
-      id: json['student_id'],
+      id: json['id'],
       certificateNumber: json['certificate_number'],
       fullName: json['full_name'],
       studentNumber: json['student_number'],

@@ -22,9 +22,9 @@ class StudentsBloc extends Bloc<StudentsEvent, StudentsState> {
     if (event is StudentsFetch) {
       yield* _studentFetch(event.courseId);
     } else if (event is StudentArrived) {
-      yield* _studentArrived(event.studentId);
+      yield* _studentArrived(event.cardId, event.courseId);
     } else if (event is StudentLeft) {
-      yield* _studentLeft(event.studentId);
+      yield* _studentLeft(event.cardId, event.courseId);
     }
   }
 
@@ -35,13 +35,13 @@ class StudentsBloc extends Bloc<StudentsEvent, StudentsState> {
     yield StudentFetchSuccess(students: students);
   }
 
-  Stream<StudentsState> _studentLeft(int studentId) async* {
-    StudentEntity student = await repository.studentLeft(studentId);
+  Stream<StudentsState> _studentLeft(int cardId, int courseId) async* {
+    StudentEntity student = await repository.studentLeft(cardId, courseId);
     yield StudentFetchSuccess(students: _replaceStudentInState(student));
   }
 
-  Stream<StudentsState> _studentArrived(int studentId) async* {
-    StudentEntity student = await repository.studentArrived(studentId);
+  Stream<StudentsState> _studentArrived(int cardId, int courseId) async* {
+    StudentEntity student = await repository.studentArrived(cardId, courseId);
     yield StudentArrivedSuccess(
       arrivedStudent: student,
       students: _replaceStudentInState(student),

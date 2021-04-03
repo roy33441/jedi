@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
+import 'package:jedi/core/utils/format_date.dart';
 
 import 'package:jedi/data/models/missing_reason.dart';
 
@@ -21,10 +21,10 @@ class StudentMissing extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'missing_student_id': id,
+      'missing_id': id,
       'student_id': studentId,
       'reason': reason.toJson(),
-      'missing_on': DateFormat('y-M-d').format(missingOn),
+      'missing_on': FormatDate.format(missingOn),
     };
   }
 
@@ -33,7 +33,7 @@ class StudentMissing extends Equatable {
       id: map['missing_student_id'],
       studentId: map['student_id'],
       reason: MissingReason.fromJson(map['reason']),
-      missingOn: DateFormat('y-M-d').parse(map['missing_on']),
+      missingOn: DateTime.parse(map['missing_on']),
     );
   }
 }

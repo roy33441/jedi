@@ -8,16 +8,16 @@ class StudentsRemoteDataProvider extends RemoteDataProvider {
   StudentsRemoteDataProvider({required Dio client}) : super(client: client);
 
   Future<List<Student>> readStudentsInCourse(int courseId) async {
-    final response = await client.get<List>(RestRoutes.fetchStudentInCourse(1));
+    final response =
+        await client.get<List>(RestRoutes.fetchStudentInCourse(courseId));
     return List<Student>.from(
       response.data!.map((studentMap) => Student.fromJson(studentMap)),
     );
   }
 
-  Future<Student> studentArrived(
-    int studentId,
-  ) async {
-    final response = await client.patch(RestRoutes.studentArrived(studentId));
+  Future<Student> studentArrived(int cardId, int courseId) async {
+    final response =
+        await client.patch(RestRoutes.studentArrived(cardId, courseId));
 
     if (response.statusCode != 200) {
       // TODO add throw clause
@@ -27,10 +27,9 @@ class StudentsRemoteDataProvider extends RemoteDataProvider {
     return Student.fromJson(json.decode(response.data));
   }
 
-  Future<Student> studentLeft(
-    int studentId,
-  ) async {
-    final response = await client.patch(RestRoutes.studentLeft(studentId));
+  Future<Student> studentLeft(int cardId, int courseId) async {
+    final response =
+        await client.patch(RestRoutes.studentLeft(cardId, courseId));
 
     if (response.statusCode != 200) {
       // TODO add throw clause

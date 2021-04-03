@@ -12,15 +12,15 @@ class ReportType extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'report_type_id': id,
-      'report_type_name': name,
+      'id': id,
+      'name': name,
     };
   }
 
   factory ReportType.fromJson(Map<String, dynamic> map) {
     return ReportType(
-      id: map['report_type_id'],
-      name: map['report_type_name'],
+      id: map['id'],
+      name: map['name'],
     );
   }
 }

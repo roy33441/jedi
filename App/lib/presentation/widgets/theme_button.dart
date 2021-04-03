@@ -10,9 +10,7 @@ class ThemeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: () {
-        context.read<StudentsBloc>().add(StudentArrived(studentId: 1));
-      },
+      onPressed: () {},
       minWidth: 0,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       color: Theme.of(context).highlightColor,

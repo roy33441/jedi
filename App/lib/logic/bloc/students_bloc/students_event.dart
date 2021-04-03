@@ -16,19 +16,21 @@ class StudentsFetch extends StudentsEvent {
 }
 
 class StudentLeft extends StudentsEvent {
-  final int studentId;
+  final int cardId;
+  final int courseId;
 
-  StudentLeft({required this.studentId});
+  StudentLeft({required this.cardId, required this.courseId});
 
   @override
-  List<Object> get props => [studentId];
+  List<Object> get props => [cardId, courseId];
 }
 
 class StudentArrived extends StudentsEvent {
-  final int studentId;
+  final int cardId;
+  final int courseId;
 
-  StudentArrived({required this.studentId});
+  StudentArrived({required this.cardId, required this.courseId});
 
   @override
-  List<Object> get props => [studentId];
+  List<Object> get props => [cardId, courseId];
 }

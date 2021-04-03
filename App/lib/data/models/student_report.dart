@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
+import 'package:jedi/core/utils/format_date.dart';
 
 import 'package:jedi/data/models/report_type.dart';
-import 'package:intl/intl.dart';
 
 class StudentReport extends Equatable {
   final int? id;
@@ -26,7 +24,7 @@ class StudentReport extends Equatable {
       'student_report_id': id,
       'student_id': studentId,
       'report_type': reportType.toJson(),
-      'date_reported': DateFormat('y-M-d').format(dateReported),
+      'date_reported': FormatDate.format(dateReported),
     };
   }
 
@@ -35,7 +33,7 @@ class StudentReport extends Equatable {
       id: map['student_report_id'],
       studentId: map['student_id'],
       reportType: ReportType.fromJson(map['report_type']),
-      dateReported: DateFormat('y-M-d').parse(map['date_reported']),
+      dateReported: DateTime.parse(map['date_reported']),
     );
   }
 }
