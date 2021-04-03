@@ -9,5 +9,6 @@ type ReportTypeRepository interface {
 	GetAll()			(*[]ReportType, error)
 	Add(ReportType)		(*ReportType, error)
 	Update(ReportType)	(*ReportType, error)
-	Delete(string)		(*ReportType, error)
+	Delete(int)			(*ReportType, error)
+	GetById(int)		(*ReportType, error)
 }

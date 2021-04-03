@@ -1,11 +1,9 @@
 package controllers
 
 import (
-	"fmt"
-	"net/http"
-
 	"dev.azure.com/u8635137/_git/Jedi/backend/models"
 	"dev.azure.com/u8635137/_git/Jedi/backend/services"
+	"dev.azure.com/u8635137/_git/Jedi/backend/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,53 +25,41 @@ func NewMissingReasonController(
 func (controller *MissingReasonController) getAll(context *gin.Context) {
 	result, err := controller.missingReasonService.GetAll()
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *MissingReasonController) addMissingReason(context *gin.Context) {
 	var missingReason models.MissingReason
 
-	if err := context.ShouldBind(&missingReason); err != nil {
-		fmt.Println("Error: " + err.Error())
-
-		context.AbortWithStatusJSON(
-			http.StatusBadRequest,
-			gin.H{
-				"error": "invalid variable",
-			},
-		)
-
-		return 
+	if !utils.CheckBodyContentBind(context, &missingReason) {
+		return
 	}
 
 	result, err := controller.missingReasonService.AddMissingReason(missingReason)
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *MissingReasonController) deleteMissingReason(context *gin.Context) {
-	result, err := controller.missingReasonService.DeleteMissingReason(context.Param("id"))
+	id := new(int)
 
-	HandleStandardHTTPRequest(context, result, err)
+	if !utils.CheckConvertParamToInt(context, context.Param("id"), id) {
+		return
+	}
+
+	result, err := controller.missingReasonService.DeleteMissingReason(*id)
+
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *MissingReasonController) updateMissingReason(context *gin.Context) {
 	var missingReason models.MissingReason
 
-	if err := context.ShouldBind(&missingReason); err != nil {
-		fmt.Println("Error: " + err.Error())
-
-		context.AbortWithStatusJSON(
-			http.StatusBadRequest,
-			gin.H{
-				"error": "invalid variable",
-			},
-		)
-
+	if !utils.CheckBodyContentBind(context, &missingReason) {
 		return 
 	}
 
 	result, err := controller.missingReasonService.UpdateMissingReason(missingReason)
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }

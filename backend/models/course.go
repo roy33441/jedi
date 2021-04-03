@@ -15,8 +15,8 @@ type Course struct {
 type CourseRepository interface {
 	GetAll()							(*[]Course, error)
 	GetCurrentCourses()					(*[]Course, error)
-	GetById(string)						(*Course, error)
+	GetById(int)						(*Course, error)
 	Add(Course)							(*Course, error)
-	Delete(string)						(*Course, error)
+	Delete(int)							(*Course, error)
 	Update(Course)						(*Course, error)
 }

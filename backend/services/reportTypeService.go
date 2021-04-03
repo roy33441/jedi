@@ -18,7 +18,7 @@ func (service *ReportTypeService) AddReportType(reportType models.ReportType) (*
 	return service.reportTypeRepository.Add(reportType)
 }
 
-func (service *ReportTypeService) DeleteReportType(reportTypeId string) (*models.ReportType, error) {
+func (service *ReportTypeService) DeleteReportType(reportTypeId int) (*models.ReportType, error) {
 	return service.reportTypeRepository.Delete(reportTypeId)
 }
 

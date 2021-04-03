@@ -10,15 +10,13 @@ type Student struct {
 }
 
 type StudentRepository interface {
-	GetByCourseId(string)					(*[]Student, error)
-	CountInCourse(string)					(int, error)
-	CountArrivedInCourse(string)			(int, error)
-	GetAll()								(*[]Student, error)
-	GetByCardId(string)						(*Student, error)
-	UpdatePresent(string, bool)				(*Student, error)
-	// UpdateStudentsExit([]string)			(*[]Student, error)
-	// UpdateMissingStudents(string)			(*[]Student, error)
-	Add(Student)							(*Student, error)
-	Delete(string)							(*Student, error)
-	Update(Student)							(*Student, error)
+	GetByCourseId(int)					(*[]Student, error)
+	CountInCourse(int)					(int, error)
+	CountArrivedInCourse(int)			(int, error)
+	GetAll()							(*[]Student, error)
+	GetByCardId(int)					(*Student, error)
+	UpdatePresent(int, bool)			(*Student, error)
+	Add(Student)						(*Student, error)
+	Delete(int)							(*Student, error)
+	Update(Student)						(*Student, error)
 }

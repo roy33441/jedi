@@ -1,11 +1,9 @@
 package controllers
 
 import (
-	"fmt"
-	"net/http"
-
 	"dev.azure.com/u8635137/_git/Jedi/backend/models"
 	"dev.azure.com/u8635137/_git/Jedi/backend/services"
+	"dev.azure.com/u8635137/_git/Jedi/backend/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,53 +25,41 @@ func NewReportTypeController(
 func (controller *ReportTypeController) getAll(context *gin.Context) {
 	result, err := controller.reportTypeService.GetAll()
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *ReportTypeController) addReportType(context *gin.Context) {
 	var reportType models.ReportType
 
-	if err := context.ShouldBind(&reportType); err != nil {
-		fmt.Println("Error: " + err.Error())
-
-		context.AbortWithStatusJSON(
-			http.StatusBadRequest,
-			gin.H{
-				"error": "invalid variable",
-			},
-		)
-
-		return 
+	if !utils.CheckBodyContentBind(context, &reportType) {
+		return
 	}
 
 	result, err := controller.reportTypeService.AddReportType(reportType)
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *ReportTypeController) deleteReportType(context *gin.Context) {
-	result, err := controller.reportTypeService.DeleteReportType(context.Param("id"))
+	id := new(int)
 
-	HandleStandardHTTPRequest(context, result, err)
+	if !utils.CheckConvertParamToInt(context, context.Param("id"), id) {
+		return
+	}
+
+	result, err := controller.reportTypeService.DeleteReportType(*id)
+
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *ReportTypeController) updateReportType(context *gin.Context) {
 	var reportType models.ReportType
 
-	if err := context.ShouldBind(&reportType); err != nil {
-		fmt.Println("Error: " + err.Error())
-
-		context.AbortWithStatusJSON(
-			http.StatusBadRequest,
-			gin.H{
-				"error": "invalid variable",
-			},
-		)
-
+	if !utils.CheckBodyContentBind(context, &reportType) {
 		return 
 	}
 
 	result, err := controller.reportTypeService.UpdateReportType(reportType)
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }

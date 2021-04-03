@@ -38,34 +38,41 @@ func initDB() *sqlx.DB {
 }
 
 func initControllers(route *gin.Engine, db *sqlx.DB) {
-	controllers.NewCourseController(
-		route.Group("/courses"),
-		*services.NewCourseService(
-			repositories.NewCourseRepository(db),
-			repositories.NewStudentRepository(db),
-		),
+	courseRepo := repositories.NewCourseRepository(db)
+	studentRepo := repositories.NewStudentRepository(db)
+	missingReasonRepo := repositories.NewMissingReasonRepository(db)
+	reportTypeRepo := repositories.NewReportTypeRepository(db)
+	studentReportRepo := repositories.NewStudentReportRepository(db)
+	missingStudentRepo := repositories.NewMissingStudentRepository(db)
 
+	studentService := services.NewStudentService(studentRepo)
+	courseService := services.NewCourseService(courseRepo, studentRepo)
+	missingReasonService := services.NewMissingReasonService(missingReasonRepo)
+	reportTypeService := services.NewReportTypeService(reportTypeRepo)
+	studentReportService := services.NewStudentReportService(studentReportRepo, reportTypeRepo)
+	missingStudentService := services.NewMissingStudentService(missingStudentRepo, missingReasonRepo)
+
+	controllers.NewCourseController(
+		route.Group("/course"),
+		*courseService,
+		*studentService,
 	)
 
 	controllers.NewMissingReasonController(
 		route.Group("/missingReasons"),
-		*services.NewMissingReasonService(
-			repositories.NewMissingReasonRepository(db),
-		),
+		*missingReasonService,
 	)
 
 	controllers.NewReportTypeController(
 		route.Group("/reportTypes"),
-		*services.NewReportTypeService(
-			repositories.NewReportTypeRepository(db),
-		),
+		*reportTypeService,
 	)
 
 	controllers.NewStudentController(
 		route.Group("/students"),
-		*services.NewStudentService(
-			repositories.NewStudentRepository(db),
-		),
+		*studentService,
+		*studentReportService,
+		*missingStudentService,
 	)
 }
 

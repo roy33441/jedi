@@ -2,7 +2,6 @@ package services
 
 import (
 	"sort"
-	"strconv"
 	"strings"
 
 	"dev.azure.com/u8635137/_git/Jedi/backend/models"
@@ -51,7 +50,7 @@ func (service *CourseService) GetCurrentCourses() (*[]models.Course, error) {
 }
 
 func (service *CourseService) addStudents(course *models.Course) error {
-	students, err := service.studentRepository.GetByCourseId(strconv.Itoa(course.Id))
+	students, err := service.studentRepository.GetByCourseId(course.Id)
 
 	if err != nil {
 		return err
@@ -62,7 +61,7 @@ func (service *CourseService) addStudents(course *models.Course) error {
 	return nil
 }
 
-func (service *CourseService) GetById(courseId string) (*models.Course, error) {
+func (service *CourseService) GetById(courseId int) (*models.Course, error) {
 	course, err := service.courseRepository.GetById(courseId)
 
 	if err != nil {
@@ -76,11 +75,11 @@ func (service *CourseService) GetById(courseId string) (*models.Course, error) {
 	return course, nil
 }
 
-func (service *CourseService) CountStudentInCourse(courseId string) (int, error) {
+func (service *CourseService) CountStudentInCourse(courseId int) (int, error) {
 	return service.studentRepository.CountInCourse(courseId)
 }
 
-func (service *CourseService) CountStudentArrivedInCourse(courseId string) (int, error) {
+func (service *CourseService) CountStudentArrivedInCourse(courseId int) (int, error) {
 	return service.studentRepository.CountArrivedInCourse(courseId)
 }
 
@@ -88,7 +87,7 @@ func (service *CourseService) AddCourse(course models.Course) (*models.Course, e
 	return service.courseRepository.Add(course)
 }
 
-func (service *CourseService) DeleteCourse(courseId string) (*models.Course, error) {
+func (service *CourseService) DeleteCourse(courseId int) (*models.Course, error) {
 	return service.courseRepository.Delete(courseId)
 }
 

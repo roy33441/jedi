@@ -29,4 +29,9 @@ var (
 		WHERE reason_id=:reason_id RETURNING *`,
 		missingReasonTable,
 	)
+	MISSING_REASON_GET_BY_ID = fmt.Sprintf(
+		`SELECT * FROM %s
+		WHERE reason_id=$1`,
+		missingReasonTable,
+	)
 )

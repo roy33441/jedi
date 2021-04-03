@@ -14,6 +14,22 @@ func NewReportTypeRepository(conn *sqlx.DB) *PsqlReportTypeRepository {
 	return &PsqlReportTypeRepository{conn}
 } 
 
+func (psqlRepo *PsqlReportTypeRepository) GetById(id int) (*models.ReportType, error) {
+	var reportType models.ReportType
+
+	err := psqlRepo.conn.Get(
+		&reportType,
+		queries.REPORT_TYPE_GET_BY_ID,
+		id,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &reportType, nil
+}
+
 func (psqlRepo *PsqlReportTypeRepository) GetAll() (*[]models.ReportType, error) {
 	ReportTypes := []models.ReportType{}
 
@@ -30,13 +46,13 @@ func (psqlRepo *PsqlReportTypeRepository) GetAll() (*[]models.ReportType, error)
 }
 
 func (psqlRepo *PsqlReportTypeRepository) Add(
-		ReportType models.ReportType,
+		reportType models.ReportType,
 	) (*models.ReportType, error) {
-	var ReportTypeRet models.ReportType
+	var reportTypeRet models.ReportType
 
 	rows, err := psqlRepo.conn.NamedQuery(
 		queries.REPORT_TYPE_ADD,
-		ReportType,
+		reportType,
 	)
 
 	if err != nil {
@@ -44,16 +60,16 @@ func (psqlRepo *PsqlReportTypeRepository) Add(
 	}
 
 	for rows.Next() {
-		if err = rows.StructScan(&ReportTypeRet); err != nil {
+		if err = rows.StructScan(&reportTypeRet); err != nil {
 			return nil, err
 		}
 	}
 
-	return &ReportTypeRet, nil
+	return &reportTypeRet, nil
 }
 
 func (psqlRepo *PsqlReportTypeRepository) Delete(
-		ReportTypeId string,
+		ReportTypeId int,
 	) (*models.ReportType, error) {
 	var ReportTypeRet models.ReportType
 

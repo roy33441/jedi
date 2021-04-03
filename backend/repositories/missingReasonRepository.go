@@ -14,6 +14,22 @@ func NewMissingReasonRepository(conn *sqlx.DB) *PsqlMissingReasonRepository {
 	return &PsqlMissingReasonRepository{conn}
 } 
 
+func (psqlRepo *PsqlMissingReasonRepository) GetById(id int) (*models.MissingReason, error) {
+	var missingReason models.MissingReason
+
+	err := psqlRepo.conn.Get(
+		&missingReason,
+		queries.MISSING_REASON_GET_BY_ID,
+		id,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &missingReason, nil
+}
+
 func (psqlRepo *PsqlMissingReasonRepository) GetAll() (*[]models.MissingReason, error) {
 	missingReasons := []models.MissingReason{}
 
@@ -53,7 +69,7 @@ func (psqlRepo *PsqlMissingReasonRepository) Add(
 }
 
 func (psqlRepo *PsqlMissingReasonRepository) Delete(
-		missingReasonId string,
+		missingReasonId int,
 	) (*models.MissingReason, error) {
 	var missingReasonRet models.MissingReason
 

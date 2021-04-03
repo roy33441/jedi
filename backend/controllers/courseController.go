@@ -1,22 +1,26 @@
 package controllers
 
 import (
-	"fmt"
-	"net/http"
-
 	"dev.azure.com/u8635137/_git/Jedi/backend/models"
 	"dev.azure.com/u8635137/_git/Jedi/backend/services"
+	"dev.azure.com/u8635137/_git/Jedi/backend/utils"
 	"github.com/gin-gonic/gin"
 )
 
 type CourseController struct {
-	courseService services.CourseService
+	courseService 	services.CourseService
+	studentService 	services.StudentService
 }
 
-func NewCourseController(routerGroup *gin.RouterGroup, courseService services.CourseService) {
-	courseController := &CourseController{courseService}
+func NewCourseController(
+		routerGroup *gin.RouterGroup, 
+		courseService services.CourseService,
+		studentService services.StudentService,
+	) {
+	courseController := &CourseController{courseService, studentService}
 
 	routerGroup.GET("/", courseController.getAll)
+	routerGroup.GET("/courseId/:id/students", courseController.getStudents)
 	routerGroup.GET("/current", courseController.getCurrent)
 	routerGroup.GET("/courseId/:id", courseController.getById)
 	routerGroup.GET("/courseId/:id/count", courseController.countStudentsInCourse)
@@ -29,84 +33,98 @@ func NewCourseController(routerGroup *gin.RouterGroup, courseService services.Co
 	routerGroup.PUT("/", courseController.updateCourse)
 }
 
+func (controller *CourseController) getStudents(context *gin.Context) {
+	id := new(int)
+
+	if !utils.CheckConvertParamToInt(context, context.Param("id"), id) {
+		return
+	}
+
+	result, err := controller.studentService.GetByCourse(*id)
+
+	utils.HandleStandardHTTPRequest(context, result, err)
+}
+
 func (controller *CourseController) getAll(context *gin.Context) {
 	result, err := controller.courseService.GetAll()
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *CourseController) getCurrent(context *gin.Context) {
 	result, err := controller.courseService.GetCurrentCourses()
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *CourseController) getById(context *gin.Context) {
-	result, err := controller.courseService.GetById(context.Param("id"))
+	id := new(int)
 
-	HandleStandardHTTPRequest(context, result, err)
+	if !utils.CheckConvertParamToInt(context, context.Param("id"), id) {
+		return
+	}
+
+	result, err := controller.courseService.GetById(*id)
+
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *CourseController) countStudentsInCourse(context *gin.Context) {
-	result, err := controller.courseService.CountStudentInCourse(context.Param("id"))
+	id := new(int)
 
-	HandleStandardHTTPRequest(context, result, err)
+	if !utils.CheckConvertParamToInt(context, context.Param("id"), id) {
+		return
+	}
+
+	result, err := controller.courseService.CountStudentInCourse(*id)
+
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *CourseController) countStudentsArrived(context *gin.Context) {
-	result, err := controller.courseService.CountStudentArrivedInCourse(context.Param("id"))
+	id := new(int)
 
-	HandleStandardHTTPRequest(context, result, err)
+	if !utils.CheckConvertParamToInt(context, context.Param("id"), id) {
+		return
+	}
+
+	result, err := controller.courseService.CountStudentArrivedInCourse(*id)
+
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *CourseController) addCourse(context *gin.Context) {
 	var course models.Course
 
-	if err := context.ShouldBind(&course); err != nil {
-		fmt.Println("Error: " + err.Error())
-
-		context.AbortWithStatusJSON(
-			http.StatusBadRequest,
-			gin.H{
-				"error": "invalid variable",
-			},
-		)
-
-		return 
+	if !utils.CheckBodyContentBind(context, &course) {
+		return
 	}
 
 	result, err := controller.courseService.AddCourse(course)
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *CourseController) deleteCourse(context *gin.Context) {
-	result, err := controller.courseService.DeleteCourse(context.Param("id"))
+	id := new(int)
 
-	HandleStandardHTTPRequest(context, result, err)
+	if !utils.CheckConvertParamToInt(context, context.Param("id"), id) {
+		return
+	}
+
+	result, err := controller.courseService.DeleteCourse(*id)
+
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *CourseController) updateCourse(context *gin.Context) {
 	var course models.Course
 
-	if err := context.ShouldBind(&course); err != nil {
-		fmt.Println("Error: " + err.Error())
-
-		context.AbortWithStatusJSON(
-			http.StatusBadRequest,
-			gin.H{
-				"error": "invalid variable",
-			},
-		)
-
+	if !utils.CheckBodyContentBind(context, &course) {
 		return 
 	}
 
 	result, err := controller.courseService.UpdateCourse(course)
 
-	HandleStandardHTTPRequest(context, result, err)
-}
-
-func (controller *CourseController) formationEnd(context *gin.Context) {
-	//TODO: need to update missing students with late
+	utils.HandleStandardHTTPRequest(context, result, err)
 }

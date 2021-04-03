@@ -1,137 +1,214 @@
 package controllers
 
 import (
-	"fmt"
-	"net/http"
+	"time"
 
 	"dev.azure.com/u8635137/_git/Jedi/backend/models"
 	"dev.azure.com/u8635137/_git/Jedi/backend/services"
+	"dev.azure.com/u8635137/_git/Jedi/backend/utils"
 	"github.com/gin-gonic/gin"
 )
 
 type StudentController struct {
 	studentService services.StudentService
+	studentReportService services.StudentReportService
+	missingStudentService services.MissingStudentService
 }
 
 func NewStudentController(
 	router *gin.RouterGroup, 
-	studentService services.StudentService) {
-		controller := StudentController{studentService}
+	studentService services.StudentService,
+	studentReportService services.StudentReportService,
+	missingStudentService services.MissingStudentService) {
+		controller := StudentController{
+			studentService, studentReportService, missingStudentService,
+		}
 		
 		router.GET("/card/:cardId", controller.getByCardId)
 		router.GET("/", controller.getAll)
 		router.GET("/course/:courseId", controller.getByCourse)
+		router.GET("/studentId/:id/reportTypes/:day", controller.getStudentReportDay)
+		router.GET("/missings/:day", controller.getMissingStudents)
 		
 		router.DELETE("/:id", controller.deleteStudent)
 	
 		router.POST("/", controller.addStudent)
-		
-		router.PUT("/card/:cardId/arrived/course/:courseId", controller.updateStudentArrived)
+
 		router.PUT("/", controller.updateStudent)
-		router.PUT("/card/:cardId/left/course/:courseId", controller.updateStudentLeft)
-		router.PUT("/exit", controller.reportStudentsExit)
+		router.PUT("/studentId/:id/reportTypes/:day", controller.saveStudentReportDay)
+
+		router.PATCH("/card/:cardId/arrived/course/:courseId", controller.updateStudentArrived)
+		router.PATCH("/card/:cardId/left/course/:courseId", controller.updateStudentLeft)
+		router.PATCH("/exit", controller.reportStudentsExit)
+}
+
+func (controller *StudentController) getMissingStudents(context *gin.Context) {
+	day := new(time.Time)
+
+	if !utils.CheckConvertParamToDate(context, context.Param("day"), day) {
+		return
+	}
+
+	missingStudents, err := controller.missingStudentService.GetMissingAtDate(*day)
+
+	utils.HandleStandardHTTPRequest(context, missingStudents, err)
+}
+
+func (controller *StudentController) saveStudentReportDay(context *gin.Context) {
+	var reportTypeIds []int
+	
+	studentId := new(int)
+	day := new(time.Time)
+
+	if !utils.CheckBodyContentBind(context, &reportTypeIds) {
+		return 
+	}
+	
+	if !utils.CheckConvertParamToInt(context, context.Param("id"), studentId) {
+		return
+	}
+
+	if !utils.CheckConvertParamToDate(context, context.Param("day"), day) {
+		return
+	}
+
+	result, err := controller.studentReportService.AddStudentReportDay(
+		*studentId, *day, reportTypeIds,
+	)
+
+	utils.HandleStandardHTTPRequest(context, result, err)
+}
+
+func (controller *StudentController) getStudentReportDay(context *gin.Context) {
+	id := new(int)
+	day := new(time.Time)
+
+	if !utils.CheckConvertParamToInt(context, context.Param("id"), id) {
+		return
+	}
+
+	if !utils.CheckConvertParamToDate(context, context.Param("day"), day) {
+		return
+	}
+
+	result, err := controller.studentReportService.GetStudentReportDay(
+		*id, *day,
+	)
+	
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *StudentController) getAll(context *gin.Context) {
 	result, err := controller.studentService.GetAll()
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *StudentController) addStudent(context *gin.Context) {
 	var student models.Student
 
-	if err := context.ShouldBind(&student); err != nil {
-		fmt.Println("Error: " + err.Error())
-
-		context.AbortWithStatusJSON(
-			http.StatusBadRequest,
-			gin.H{
-				"error": "invalid variable request",
-			},
-		)
-
-		return 
-
+	if !utils.CheckBodyContentBind(context, &student) {
+		return
 	}
 
 	result, err := controller.studentService.AddStudent(student)
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *StudentController) deleteStudent(context *gin.Context) {
-	result, err := controller.studentService.DeleteStudent(context.Param("id"))
+	id := new(int)
 
-	HandleStandardHTTPRequest(context, result, err)
+	if !utils.CheckConvertParamToInt(context, context.Param("id"), id) {
+		return
+	}
+
+	result, err := controller.studentService.DeleteStudent(*id)
+
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *StudentController) updateStudent(context *gin.Context) {
 	var student models.Student
 
-	if err := context.ShouldBind(&student); err != nil {
-		fmt.Println("Error: " + err.Error())
-
-		context.AbortWithStatusJSON(
-			http.StatusBadRequest,
-			gin.H{
-				"error": "invalid variable request",
-			},
-		)
-
+	if !utils.CheckBodyContentBind(context, &student) {
 		return 
 	}
 
 	result, err := controller.studentService.UpdateStudent(student)
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *StudentController) getByCardId(context *gin.Context) {
-	result, err := controller.studentService.GetByCardId(context.Param("cardId"))
+	id := new(int)
 
-	HandleStandardHTTPRequest(context, result, err)
+	if !utils.CheckConvertParamToInt(context, context.Param("cardId"), id) {
+		return
+	}
+
+	result, err := controller.studentService.GetByCardId(*id)
+
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *StudentController) updateStudentArrived(context *gin.Context) {
+	cardId := new(int)
+	courseId := new(int)
+
+	if !utils.CheckConvertParamToInt(context, context.Param("cardId"), cardId) {
+		return
+	}
+
+	if !utils.CheckConvertParamToInt(context, context.Param("courseId"), courseId) {
+		return
+	}
+
 	result, err := controller.studentService.UpdateStudentArrived(
-		context.Param("cardId"), context.Param("courseId"),
+		*cardId, *courseId,
 	)
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *StudentController) getByCourse(context *gin.Context) {
-	result, err := controller.studentService.GetByCourse(context.Param("courseId"))
+	courseId := new(int)
 
-	HandleStandardHTTPRequest(context, result, err)
+	if !utils.CheckConvertParamToInt(context, context.Param("courseId"), courseId) {
+		return
+	}
+	result, err := controller.studentService.GetByCourse(*courseId)
+
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *StudentController) updateStudentLeft(context *gin.Context) {
+	cardId := new(int)
+	courseId := new(int)
+
+	if !utils.CheckConvertParamToInt(context, context.Param("cardId"), cardId) {
+		return
+	}
+
+	if !utils.CheckConvertParamToInt(context, context.Param("courseId"), courseId) {
+		return
+	}
+
 	result, err := controller.studentService.UpdateStudentLeft(
-		context.Param("cardId"), context.Param("courseId"),
+		*cardId, *courseId,
 	)
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }
 
 func (controller *StudentController) reportStudentsExit(context *gin.Context) {
 	var studentIds []int
 
-	if err := context.ShouldBind(&studentIds); err != nil {
-		fmt.Println("Error: " + err.Error())
-
-		context.AbortWithStatusJSON(
-			http.StatusBadRequest,
-			gin.H{
-				"error": "invalid variable request",
-			},
-		)
-
-		return 
+	if !utils.CheckBodyContentBind(context, &studentIds) {
+		return
 	}
-	
+
 	result, err := controller.studentService.ReportStudentsExit(studentIds)
 
-	HandleStandardHTTPRequest(context, result, err)
+	utils.HandleStandardHTTPRequest(context, result, err)
 }

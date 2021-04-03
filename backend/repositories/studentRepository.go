@@ -14,7 +14,7 @@ func NewStudentRepository(conn *sqlx.DB) *PsqlStudentRepository {
 	return &PsqlStudentRepository{conn}
 }
 
-func (psqlRepo *PsqlStudentRepository) GetByCourseId(courseId string) (*[]models.Student, error) {
+func (psqlRepo *PsqlStudentRepository) GetByCourseId(courseId int) (*[]models.Student, error) {
 	students := []models.Student{}
 
 	err := psqlRepo.conn.Select(
@@ -69,7 +69,7 @@ func (psqlRepo *PsqlStudentRepository) Add(
 }
 
 func (psqlRepo *PsqlStudentRepository) Delete(
-		studentId string,
+		studentId int,
 	) (*models.Student, error) {
 	var studentRet models.Student
 
@@ -109,7 +109,7 @@ func (psqlRepo *PsqlStudentRepository) Update(
 	return &studentRet, nil
 }
 
-func (psqlRepo *PsqlStudentRepository) CountInCourse(courseId string) (int, error) {
+func (psqlRepo *PsqlStudentRepository) CountInCourse(courseId int) (int, error) {
 	var count int
 
 	err := psqlRepo.conn.Get(
@@ -125,7 +125,7 @@ func (psqlRepo *PsqlStudentRepository) CountInCourse(courseId string) (int, erro
 	return count, nil
 }
 
-func (psqlRepo *PsqlStudentRepository) CountArrivedInCourse(courseId string) (int, error) {
+func (psqlRepo *PsqlStudentRepository) CountArrivedInCourse(courseId int) (int, error) {
 	var count int
 
 	err := psqlRepo.conn.Get(
@@ -141,7 +141,7 @@ func (psqlRepo *PsqlStudentRepository) CountArrivedInCourse(courseId string) (in
 	return count, nil
 }
 
-func (psqlRepo *PsqlStudentRepository) GetByCardId(cardId string) (*models.Student, error) {
+func (psqlRepo *PsqlStudentRepository) GetByCardId(cardId int) (*models.Student, error) {
 	var student models.Student
 
 	err := psqlRepo.conn.Get(
@@ -157,7 +157,7 @@ func (psqlRepo *PsqlStudentRepository) GetByCardId(cardId string) (*models.Stude
 	return &student, nil
 }
 
-func (psqlRepo *PsqlStudentRepository) UpdatePresent(id string, present bool) (*models.Student, error) {
+func (psqlRepo *PsqlStudentRepository) UpdatePresent(id int, present bool) (*models.Student, error) {
 	var student models.Student
 
 	err := psqlRepo.conn.Get(

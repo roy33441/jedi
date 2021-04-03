@@ -47,7 +47,7 @@ func (psqlRepo *PsqlCourseRepository) GetCurrentCourses() (*[]models.Course, err
 	return &courses, nil
 }
 
-func (psqlRepo *PsqlCourseRepository) GetById(courseId string) (*models.Course, error) {
+func (psqlRepo *PsqlCourseRepository) GetById(courseId int) (*models.Course, error) {
 	course := models.Course{}
 
 	err := psqlRepo.conn.Get(
@@ -86,7 +86,7 @@ func (psqlRepo *PsqlCourseRepository) Add(course models.Course) (*models.Course,
 	return &courseRet, nil
 }
 
-func (psqlRepo *PsqlCourseRepository) Delete(courseId string) (*models.Course, error) {
+func (psqlRepo *PsqlCourseRepository) Delete(courseId int) (*models.Course, error) {
 	var courseRet models.Course
 
 	err := psqlRepo.conn.Get(

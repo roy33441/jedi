@@ -29,4 +29,9 @@ var (
 		WHERE report_type_id=:report_type_id RETURNING *`,
 		reportTypeTable,
 	)
+	REPORT_TYPE_GET_BY_ID = fmt.Sprintf(
+		`SELECT * FROM %s
+		WHERE report_type_id=$1`,
+		reportTypeTable,
+	)
 )

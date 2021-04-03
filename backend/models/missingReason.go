@@ -8,6 +8,7 @@ type MissingReason struct {
 type MissingReasonRepository interface {
 	GetAll()				(*[]MissingReason, error)
 	Add(MissingReason)		(*MissingReason, error)
-	Delete(string)			(*MissingReason, error)		
+	Delete(int)				(*MissingReason, error)		
 	Update(MissingReason)	(*MissingReason, error)
+	GetById(int)			(*MissingReason, error)
 }
