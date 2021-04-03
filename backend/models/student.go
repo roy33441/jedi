@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type Student struct {
 	Id					int		`json:"id" db:"student_id"`
 	CertificateNumber 	int 	`json:"certificate number" db:"certificate_number"`
@@ -19,4 +21,5 @@ type StudentRepository interface {
 	Add(Student)						(*Student, error)
 	Delete(int)							(*Student, error)
 	Update(Student)						(*Student, error)
+	ResetPresent(time.Time)				(int, error)
 }

@@ -13,6 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	"github.com/joho/godotenv"
+	"github.com/robfig/cron"
 )
 
 func init() {
@@ -35,6 +36,12 @@ func initDB() *sqlx.DB {
 	}
 
 	return db
+}
+
+func startResetPresentCtronJob(service services.StudentService) {
+	job := cron.New()
+	job.AddFunc("0 0 * * *", service.ResetPresentStatus)
+	job.Start()
 }
 
 func initControllers(route *gin.Engine, db *sqlx.DB) {
@@ -74,6 +81,8 @@ func initControllers(route *gin.Engine, db *sqlx.DB) {
 		*studentReportService,
 		*missingStudentService,
 	)
+
+	startResetPresentCtronJob(*studentService)
 }
 
 func main() {
