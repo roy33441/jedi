@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:jedi/core/themes/app_theme.dart';
 import 'package:jedi/logic/bloc/students_bloc/students_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:jedi/logic/cubit/student_missing/student_missing_cubit.dart';
 import 'package:jedi/logic/entities/student.dart';
 import '../extensions/rtl_scrollable_list_view.dart';
 
@@ -14,18 +16,49 @@ class MissingStudentsListView extends HookWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final ScrollController _controller = useScrollController();
+
     final missingStudents = context.select((StudentsBloc bloc) =>
         (bloc.state as StudentFetchSuccess).missingStudents);
+    final studentMissingReasonState =
+        context.watch<StudentMissingCubit>().state;
 
-    return _buildMissingList(_controller, missingStudents).addRtlAndScroll(
-      context: context,
-      controller: _controller,
-      mediaQuerySize: size,
+    if (studentMissingReasonState is StudentMissingTodayFetchSuccess) {
+      return _buildMissingList(
+        _controller,
+        missingStudents,
+        studentMissingReasonState,
+      ).addRtlAndScroll(
+        context: context,
+        controller: _controller,
+        mediaQuerySize: size,
+      );
+    } else {
+      return _fetchInProgress(context);
+    }
+  }
+
+  Widget _fetchInProgress(BuildContext context) {
+    final indicatorSize = MediaQuery.of(context).size.height * 0.15;
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.35,
+      child: Center(
+        child: SizedBox(
+            height: indicatorSize,
+            width: indicatorSize,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(
+                Theme.of(context).success,
+              ),
+            )),
+      ),
     );
   }
 
   ListView _buildMissingList(
-      ScrollController _controller, List<StudentEntity> missingStudents) {
+    ScrollController _controller,
+    List<StudentEntity> missingStudents,
+    StudentMissingTodayFetchSuccess state,
+  ) {
     return ListView.separated(
         controller: _controller,
         itemBuilder: (context, index) {
@@ -40,10 +73,22 @@ class MissingStudentsListView extends HookWidget {
               Icons.circle,
               color: Theme.of(context).errorColor,
             ),
-            trailing: Text(
-              'התמקצעות',
-              style:
-                  Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 15),
+            trailing: Container(
+              width: MediaQuery.of(context).size.width * 0.3,
+              child: Text(
+                state
+                    .getStudentMissingReason(
+                        studentId: missingStudents[index].id)
+                    .fold(
+                      (_) => '',
+                      (missingReason) => missingReason.text,
+                    ),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 15),
+                textAlign: TextAlign.center,
+              ),
             ),
           );
         },
