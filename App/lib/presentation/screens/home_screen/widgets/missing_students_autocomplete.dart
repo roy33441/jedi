@@ -5,7 +5,7 @@ import 'package:jedi/logic/bloc/students_bloc/students_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jedi/logic/cubit/manual_report/manual_report_cubit.dart';
 import 'package:jedi/logic/entities/student.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/themes/app_theme.dart';
 
 class MissingStudentsAutocomplete extends HookWidget {
   const MissingStudentsAutocomplete({Key? key}) : super(key: key);
@@ -14,7 +14,11 @@ class MissingStudentsAutocomplete extends HookWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final manualReportState = context.watch<ManualReportCubit>().state;
-    final TextEditingController controller = useTextEditingController();
+    final TextEditingController controller = useTextEditingController(
+      text: manualReportState is ManualReportStudentPicked
+          ? manualReportState.student.fullName
+          : '',
+    );
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -65,8 +69,18 @@ class MissingStudentsAutocomplete extends HookWidget {
         ),
         if (manualReportState is ManualReportStudentPicked)
           MaterialButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            color: Theme.of(context).success,
             onPressed: () {},
-            child: Text('החניך נמצא'),
+            padding: EdgeInsets.symmetric(horizontal: 25),
+            child: Text(
+              'החניך נמצא',
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
           )
       ],
     );
