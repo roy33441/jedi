@@ -7,6 +7,7 @@ import 'package:jedi/data/data_providers/student_report_provider.dart';
 import 'package:jedi/data/repositories/report_type_repository.dart';
 import 'package:jedi/data/repositories/student_missing_repository.dart';
 import 'package:jedi/data/repositories/student_report_repository.dart';
+import 'package:jedi/logic/cubit/manual_report/manual_report_cubit.dart';
 import 'package:jedi/logic/cubit/report_type/report_type_cubit.dart';
 import 'package:jedi/logic/cubit/student_missing/student_missing_cubit.dart';
 import 'package:jedi/logic/cubit/student_report/student_report_cubit.dart';
@@ -66,7 +67,11 @@ class App extends StatelessWidget {
                     StudentMissingRemoteDataProvider(client: dio),
               ),
             ),
-          )
+          ),
+          BlocProvider<ManualReportCubit>(
+            create: (context) =>
+                ManualReportCubit(context.read<StudentsBloc>()),
+          ),
         ],
         child: MaterialApp(
           title: Strings.appTitle,
