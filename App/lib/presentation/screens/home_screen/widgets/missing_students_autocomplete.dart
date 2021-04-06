@@ -42,6 +42,7 @@ class MissingStudentsAutocomplete extends StatelessWidget {
         onSuggestionSelected: (StudentEntity suggestion) {
           context.read<StudentsBloc>().add(StudentArrived(
               cardId: suggestion.certificateNumber, courseId: 1));
+          Navigator.of(context).pop();
         },
         suggestionsCallback: (String pattern) {
           final missingStudents =
