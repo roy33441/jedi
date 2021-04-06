@@ -9,7 +9,7 @@ import 'package:jedi/data/repositories/missing_catagory_repository.dart';
 import 'package:jedi/data/repositories/report_type_repository.dart';
 import 'package:jedi/data/repositories/student_missing_repository.dart';
 import 'package:jedi/data/repositories/student_report_repository.dart';
-import 'package:jedi/logic/cubit/report_missing_students/report_missing_students_cubit.dart';
+import 'package:jedi/logic/cubit/manual_report/manual_report_cubit.dart';
 import 'package:jedi/logic/cubit/report_type/report_type_cubit.dart';
 import 'package:jedi/logic/cubit/student_missing/student_missing_cubit.dart';
 import 'package:jedi/logic/cubit/student_report/student_report_cubit.dart';
@@ -20,6 +20,7 @@ import 'core/themes/app_theme.dart';
 import 'data/data_providers/students_data_provider.dart';
 import 'data/repositories/students_repository.dart';
 import 'logic/bloc/students_bloc/students_bloc.dart';
+import 'logic/cubit/report_missing_students/report_missing_students_cubit.dart';
 import 'logic/debug/app_bloc_observer.dart';
 
 // Credits:
@@ -78,7 +79,11 @@ class App extends StatelessWidget {
                 remoteDataProvider: MissingReasonDataProvider(client: dio),
               ),
             ),
-          )
+          ),
+          BlocProvider<ManualReportCubit>(
+            create: (context) =>
+                ManualReportCubit(context.read<StudentsBloc>()),
+          ),
         ],
         child: MaterialApp(
           title: Strings.appTitle,
