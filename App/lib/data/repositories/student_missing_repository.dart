@@ -1,5 +1,5 @@
-import 'package:jedi/data/data_providers/student_missing_provider.dart';
-import 'package:jedi/logic/entities/student_missing.dart';
+import '../../logic/entities/student_missing.dart';
+import '../data_providers/student_missing_provider.dart';
 
 class StudentMissingRepository {
   final StudentMissingRemoteDataProvider remoteDataProvider;

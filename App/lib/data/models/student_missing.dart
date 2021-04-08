@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:jedi/core/utils/format_date.dart';
 
-import 'package:jedi/data/models/missing_reason.dart';
+import '../../core/utils/format_date.dart';
+import 'missing_reason.dart';
 
 class StudentMissing extends Equatable {
   final int? id;

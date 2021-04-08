@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:jedi/core/utils/format_date.dart';
 
 class Student extends Equatable {
   final int id;

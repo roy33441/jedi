@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:jedi/logic/bloc/students_bloc/students_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jedi/logic/cubit/manual_report/manual_report_cubit.dart';
-import 'package:jedi/logic/entities/student.dart';
+
 import '../../../../core/themes/app_theme.dart';
+import '../../../../logic/bloc/students_bloc/students_bloc.dart';
+import '../../../../logic/cubit/manual_report/manual_report_cubit.dart';
+import '../../../../logic/entities/student.dart';
 
 class MissingStudentsAutocomplete extends HookWidget {
   const MissingStudentsAutocomplete({Key? key}) : super(key: key);

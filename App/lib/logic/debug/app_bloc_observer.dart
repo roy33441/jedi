@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jedi/logic/cubit/report_missing_students/report_missing_students_cubit.dart';
+
+import '../cubit/report_missing_students/report_missing_students_cubit.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override

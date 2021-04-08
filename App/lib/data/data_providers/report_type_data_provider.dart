@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:jedi/core/constants/rest_routes.dart';
-import 'package:jedi/data/data_providers/remote_data_provider.dart';
-import 'package:jedi/data/models/report_type.dart';
+
+import '../../core/constants/rest_routes.dart';
+import '../models/report_type.dart';
+import 'remote_data_provider.dart';
 
 class ReportTypeRemoteDataProvider extends RemoteDataProvider {
   ReportTypeRemoteDataProvider({required Dio client}) : super(client: client);

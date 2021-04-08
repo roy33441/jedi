@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jedi/presentation/screens/home_screen/widgets/missing_students_autocomplete.dart';
+
+import 'missing_students_autocomplete.dart';
 
 class ManualReportDialog extends StatelessWidget {
   const ManualReportDialog({Key? key}) : super(key: key);

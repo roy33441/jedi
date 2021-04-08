@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jedi/logic/bloc/students_bloc/students_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../logic/bloc/students_bloc/students_bloc.dart';
 
 class ArrivedStudentsProgressIndicator extends StatelessWidget {
   @override

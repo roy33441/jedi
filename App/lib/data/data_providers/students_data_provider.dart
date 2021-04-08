@@ -1,8 +1,9 @@
-import 'dart:convert';
+
 import 'package:dio/dio.dart';
-import 'package:jedi/core/constants/rest_routes.dart';
-import 'package:jedi/data/data_providers/remote_data_provider.dart';
-import 'package:jedi/data/models/student.dart';
+
+import '../../core/constants/rest_routes.dart';
+import '../models/student.dart';
+import 'remote_data_provider.dart';
 
 class StudentsRemoteDataProvider extends RemoteDataProvider {
   StudentsRemoteDataProvider({required Dio client}) : super(client: client);

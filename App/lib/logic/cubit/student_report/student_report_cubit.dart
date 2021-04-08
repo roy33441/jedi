@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import 'package:jedi/data/repositories/student_report_repository.dart';
-import 'package:jedi/logic/entities/student_report.dart';
+import '../../../data/repositories/student_report_repository.dart';
+import '../../entities/student_report.dart';
 
 part 'student_report_state.dart';
 

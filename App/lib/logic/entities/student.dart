@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:jedi/data/models/student.dart';
+import '../../data/models/student.dart';
 
 class StudentEntity extends Equatable {
   final int id;

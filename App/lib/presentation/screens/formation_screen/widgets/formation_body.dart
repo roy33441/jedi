@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jedi/core/constants/strings.dart';
-import 'package:jedi/presentation/screens/formation_screen/widgets/arrived_students_list.dart';
 
+import '../../../../core/constants/strings.dart';
 import '../../../widgets/statistics_container.dart';
+import 'arrived_students_list.dart';
 import 'missing_students_list_view.dart';
 
 class FormationBody extends StatelessWidget {

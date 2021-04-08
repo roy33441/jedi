@@ -2,44 +2,41 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:jedi/data/repositories/missing_catagory_repository.dart';
-import 'package:jedi/logic/cubit/student_missing/student_missing_cubit.dart';
-import 'package:jedi/logic/entities/missing_reason.dart';
-import 'package:jedi/logic/entities/student_missing.dart';
-import 'package:rxdart/rxdart.dart';
 
+import '../../../data/repositories/missing_catagory_repository.dart';
 import '../../bloc/students_bloc/students_bloc.dart';
+import '../../entities/missing_reason.dart';
 import '../../entities/student.dart';
+import '../../entities/student_missing.dart';
+import '../student_missing/student_missing_cubit.dart';
 
 part 'report_missing_students_state.dart';
 
 class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
   final MissingReasonRepository missingReasonRepository;
   StreamSubscription? _streamSub;
+  StreamSubscription? _streamSubStudentsMissing;
+  StreamSubscription? _streamSubStudents;
+  final StudentsBloc studentsBloc;
+  final StudentMissingCubit studentMissingCubit;
 
   ReportMissingStudentsCubit({
-    required StudentsBloc studentsBloc,
-    required StudentMissingCubit studentMissingCubit,
+    required this.studentsBloc,
+    required this.studentMissingCubit,
     required this.missingReasonRepository,
   }) : super(ReportMissingStudentsInProgress()) {
-    _streamSub = Rx.combineLatest3<StudentsState, StudentMissingState,
-        ReportMissingStudentsState, ReportMissingStudentsState>(
-      studentsBloc.stream,
-      studentMissingCubit.stream,
-      stream,
-      _mapStudentsAndMissingToState,
-    ).listen((state) {
-      emit(state);
-    });
-
     studentMissingCubit.getMissingStudentsToday();
     getMissingReasons();
+    _streamSubStudents = studentsBloc.stream.listen((event) {});
+    _streamSubStudentsMissing = studentMissingCubit.stream.listen((event) {});
+    _streamSub = stream.listen((event) {});
   }
 
   ReportMissingStudentsState _mapStudentsAndMissingToState(
-      StudentsState studentState,
-      StudentMissingState missingStudentState,
-      ReportMissingStudentsState currentState) {
+    StudentsState studentState,
+    ReportMissingStudentsState currentState,
+    StudentMissingState missingStudentState,
+  ) {
     if (studentState is StudentFetchSuccess &&
         missingStudentState is StudentMissingTodayFetchSuccess &&
         currentState is ReportMissingStudentsFetchReasonsSuccuess) {
@@ -86,6 +83,8 @@ class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
   @override
   Future<void> close() {
     _streamSub?.cancel();
+    _streamSubStudents?.cancel();
+    _streamSubStudentsMissing?.cancel();
     return super.close();
   }
 }

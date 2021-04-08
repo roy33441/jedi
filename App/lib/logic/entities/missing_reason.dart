@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:jedi/data/models/missing_reason.dart';
+
+import '../../data/models/missing_reason.dart';
 
 class MissingReasonEntity extends Equatable {
   final int id;

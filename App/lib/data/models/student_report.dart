@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:jedi/core/utils/format_date.dart';
 
-import 'package:jedi/data/models/report_type.dart';
+import '../../core/utils/format_date.dart';
+import 'report_type.dart';
 
 class StudentReport extends Equatable {
   final int? id;

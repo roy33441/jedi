@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:jedi/data/repositories/students_repository.dart';
-import 'package:jedi/logic/entities/student.dart';
 import 'package:meta/meta.dart';
+
+import '../../../data/repositories/students_repository.dart';
+import '../../entities/student.dart';
 
 part 'students_event.dart';
 part 'students_state.dart';

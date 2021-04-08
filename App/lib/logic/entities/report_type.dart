@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:jedi/data/models/report_type.dart';
+
+import '../../data/models/report_type.dart';
 
 class ReportTypeEntity extends Equatable {
   final int id;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jedi/core/themes/app_theme.dart';
+
+import '../../core/themes/app_theme.dart';
 
 class CheckBoxWithTitle extends StatelessWidget {
   const CheckBoxWithTitle({

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jedi/core/constants/strings.dart';
-import 'package:jedi/core/themes/app_theme.dart';
-import 'package:jedi/presentation/screens/home_screen/widgets/manual_report_dialog.dart';
-import 'package:jedi/presentation/widgets/statistics_container.dart';
+
+import '../../../../core/constants/strings.dart';
+import '../../../../core/themes/app_theme.dart';
+import '../../../widgets/statistics_container.dart';
+import 'manual_report_dialog.dart';
 
 class HomeBody extends StatelessWidget {
   @override

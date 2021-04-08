@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:jedi/data/repositories/student_missing_repository.dart';
-import 'package:jedi/logic/entities/missing_reason.dart';
-import 'package:jedi/logic/entities/student_missing.dart';
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
+
+import '../../../data/repositories/student_missing_repository.dart';
+import '../../entities/missing_reason.dart';
+import '../../entities/student_missing.dart';
+
 part 'student_missing_state.dart';
 
 class StudentMissingCubit extends Cubit<StudentMissingState> {

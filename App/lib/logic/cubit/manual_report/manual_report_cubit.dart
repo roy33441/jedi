@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:jedi/logic/bloc/students_bloc/students_bloc.dart';
-import 'package:jedi/logic/entities/student.dart';
+
+import '../../bloc/students_bloc/students_bloc.dart';
+import '../../entities/student.dart';
 
 part 'manual_report_state.dart';
 

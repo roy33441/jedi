@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jedi/logic/cubit/report_missing_students/report_missing_students_cubit.dart';
-import 'package:jedi/logic/entities/missing_reason.dart';
-import 'package:jedi/presentation/widgets/theme_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../logic/cubit/report_missing_students/report_missing_students_cubit.dart';
+import '../../../../logic/entities/missing_reason.dart';
+import '../../../widgets/theme_button.dart';
 
 class MissingCatagory extends StatelessWidget {
   @override

@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:intl/intl.dart';
-import 'package:jedi/core/constants/rest_routes.dart';
-import 'package:jedi/core/utils/format_date.dart';
-import 'package:jedi/data/data_providers/remote_data_provider.dart';
-import 'package:jedi/data/models/student_missing.dart';
+
+import '../../core/constants/rest_routes.dart';
+import '../../core/utils/format_date.dart';
+import '../models/student_missing.dart';
+import 'remote_data_provider.dart';
 
 class StudentMissingRemoteDataProvider extends RemoteDataProvider {
   StudentMissingRemoteDataProvider({required Dio client})

@@ -1,9 +1,8 @@
-import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'package:jedi/data/models/student_report.dart';
-import 'package:jedi/logic/entities/report_type.dart';
+import '../../data/models/student_report.dart';
+import 'report_type.dart';
 
 class StudentReportEntity extends Equatable {
   final int studentId;

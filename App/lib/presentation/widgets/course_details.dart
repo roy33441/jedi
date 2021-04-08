@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jedi/core/constants/strings.dart';
-import 'package:jedi/logic/bloc/students_bloc/students_bloc.dart';
+import '../../core/constants/strings.dart';
+import '../../logic/bloc/students_bloc/students_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'one_student_statistic.dart';

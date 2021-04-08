@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:jedi/presentation/router/app_router.dart';
+
+import '../router/app_router.dart';
 
 class BottomNavBar extends StatelessWidget {
   final GlobalKey<NavigatorState> navigator;

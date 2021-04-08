@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jedi/core/constants/strings.dart';
-import 'package:jedi/core/themes/app_theme.dart';
-import 'package:jedi/logic/cubit/report_type/report_type_cubit.dart';
-import 'package:jedi/logic/cubit/student_report/student_report_cubit.dart';
-import 'package:jedi/logic/entities/report_type.dart';
-import 'package:jedi/logic/entities/student.dart';
-import 'package:jedi/logic/entities/student_report.dart';
-import 'package:jedi/presentation/widgets/checkbox_with_title.dart';
+
+import '../../../../core/constants/strings.dart';
+import '../../../../core/themes/app_theme.dart';
+import '../../../../logic/cubit/report_type/report_type_cubit.dart';
+import '../../../../logic/cubit/student_report/student_report_cubit.dart';
+import '../../../../logic/entities/student.dart';
+import '../../../../logic/entities/student_report.dart';
+import '../../../widgets/checkbox_with_title.dart';
 
 class FormationReportDialog extends StatelessWidget {
   final StudentEntity student;

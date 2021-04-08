@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jedi/core/themes/app_theme.dart';
-import 'package:jedi/logic/bloc/students_bloc/students_bloc.dart';
-import 'package:jedi/logic/cubit/report_type/report_type_cubit.dart';
-import 'package:jedi/logic/cubit/student_missing/student_missing_cubit.dart';
-import 'package:jedi/presentation/screens/formation_screen/widgets/formation_body.dart';
+
+import '../../../core/themes/app_theme.dart';
+import '../../../logic/bloc/students_bloc/students_bloc.dart';
+import '../../../logic/cubit/report_type/report_type_cubit.dart';
+import '../../../logic/cubit/student_missing/student_missing_cubit.dart';
+import 'widgets/formation_body.dart';
 
 class FormationScreen extends StatelessWidget {
   @override

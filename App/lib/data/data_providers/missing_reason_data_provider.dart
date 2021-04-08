@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:jedi/core/constants/rest_routes.dart';
-import 'package:jedi/data/data_providers/remote_data_provider.dart';
-import 'package:jedi/data/models/missing_reason.dart';
+
+import '../../core/constants/rest_routes.dart';
+import '../models/missing_reason.dart';
+import 'remote_data_provider.dart';
 
 class MissingReasonDataProvider extends RemoteDataProvider {
   MissingReasonDataProvider({required Dio client}) : super(client: client);

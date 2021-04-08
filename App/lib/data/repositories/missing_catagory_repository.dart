@@ -1,5 +1,5 @@
-import 'package:jedi/data/data_providers/missing_reason_data_provider.dart';
-import 'package:jedi/logic/entities/missing_reason.dart';
+import '../../logic/entities/missing_reason.dart';
+import '../data_providers/missing_reason_data_provider.dart';
 
 class MissingReasonRepository {
   final MissingReasonDataProvider remoteDataProvider;

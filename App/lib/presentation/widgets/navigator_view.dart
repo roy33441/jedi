@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jedi/logic/bloc/students_bloc/students_bloc.dart';
-import 'package:jedi/presentation/router/app_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../logic/bloc/students_bloc/students_bloc.dart';
+import '../router/app_router.dart';
 import 'bottom_nav_bar.dart';
 
 class NavigatorView extends StatefulWidget {

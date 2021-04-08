@@ -1,5 +1,5 @@
-import 'package:jedi/data/data_providers/report_type_data_provider.dart';
-import 'package:jedi/logic/entities/report_type.dart';
+import '../../logic/entities/report_type.dart';
+import '../data_providers/report_type_data_provider.dart';
 
 class ReportTypeRepository {
   final ReportTypeRemoteDataProvider remoteDataProvider;

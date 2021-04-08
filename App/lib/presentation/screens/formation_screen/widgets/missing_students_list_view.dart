@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:jedi/core/themes/app_theme.dart';
-import 'package:jedi/logic/bloc/students_bloc/students_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:jedi/logic/cubit/student_missing/student_missing_cubit.dart';
-import 'package:jedi/logic/entities/student.dart';
+
+import '../../../../core/themes/app_theme.dart';
+import '../../../../logic/bloc/students_bloc/students_bloc.dart';
+import '../../../../logic/cubit/student_missing/student_missing_cubit.dart';
+import '../../../../logic/entities/student.dart';
 import '../extensions/rtl_scrollable_list_view.dart';
 
 class MissingStudentsListView extends HookWidget {

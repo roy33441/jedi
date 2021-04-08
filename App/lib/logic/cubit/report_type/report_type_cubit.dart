@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:jedi/data/repositories/report_type_repository.dart';
-import 'package:jedi/logic/entities/report_type.dart';
+
+import '../../../data/repositories/report_type_repository.dart';
+import '../../entities/report_type.dart';
 
 part 'report_type_state.dart';
 
