@@ -1,40 +1,133 @@
 import 'package:flutter/material.dart';
+import 'package:jedi/logic/cubit/report_missing_students/report_missing_students_cubit.dart';
+import 'package:jedi/logic/entities/missing_reason.dart';
 import 'package:jedi/presentation/widgets/theme_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MissingCatagory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    List<DropdownMenuItem> _dropDownItems = [
-      DropdownMenuItem(child: Text("התמקצעות")),
-      DropdownMenuItem(child: Text("מתפללים")),
-      DropdownMenuItem(child: Text("אישור סגל")),
-      DropdownMenuItem(child: Text("מאחר")),
-    ];
+    final reportMissingStudentCubit =
+        context.read<ReportMissingStudentsCubit>();
+    final items = context
+        .select<ReportMissingStudentsCubit, List<MissingReasonEntity>>((cubit) {
+      final currentState = cubit.state;
+      if (currentState is ReportMissingStudentsSuccess) {
+        return currentState.missingReasons;
+      }
+
+      if (currentState is ReportMissingStudentsFetchReasonsSuccuess) {
+        return currentState.missingReasons;
+      }
+      return [];
+    });
 
     return Container(
       decoration: _containterDecoration(),
       height: size.height * 0.18,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          SizedBox(
+            height: 10,
+          ),
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              DropdownButton(
-                value: _dropDownItems[0],
-                items: _dropDownItems,
-              ),
-              Text("לחיצה על שם תעביר אותו לקטגוריה"),
+              if (items.length > 0)
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.65,
+                    ),
+                    child: DropdownButtonFormField(
+                      icon: Icon(
+                        Icons.expand_more,
+                        color: Theme.of(context).textTheme.bodyText2!.color,
+                      ),
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 25,
+                          // vertical: 10,
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          ),
+                        ),
+                      ),
+                      selectedItemBuilder: (context) => _buildMenuItems(
+                        items,
+                        Theme.of(context).textTheme.bodyText1!.copyWith(
+                            fontSize: 20, fontWeight: FontWeight.w500),
+                        false,
+                      ),
+                      value: items[0].text,
+                      onChanged: (String? value) =>
+                          reportMissingStudentCubit.changeReason(value!),
+                      items: _buildMenuItems(
+                        items,
+                        TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                        true,
+                      ),
+                    ),
+                  ),
+                ),
+              ThemeButton(),
             ],
           ),
-          ThemeButton(),
+          Text(
+            "לחיצה על שם תעביר אותו לקטגוריה",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  List<DropdownMenuItem<String>> _buildMenuItems(
+    List<MissingReasonEntity> _dropDownItems,
+    TextStyle style,
+    bool withBorder,
+  ) {
+    return _dropDownItems.map(
+      (item) {
+        return DropdownMenuItem(
+          value: item.text,
+          child: Container(
+            decoration: withBorder
+                ? BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  )
+                : null,
+            alignment: Alignment.center,
+            padding: withBorder ? EdgeInsets.only(top: 0, bottom: 10) : null,
+            child: new Text(
+              item.text,
+              style: style,
+            ),
+          ),
+        );
+      },
+    ).toList();
   }
 
   BoxDecoration _containterDecoration() {

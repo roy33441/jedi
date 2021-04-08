@@ -1,7 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
-
-import 'package:jedi/data/models/missing_reason.dart';
 import 'package:jedi/data/models/student_missing.dart';
 import 'package:jedi/logic/entities/missing_reason.dart';
 

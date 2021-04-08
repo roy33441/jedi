@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jedi/data/data_providers/missing_reason_data_provider.dart';
 import 'package:jedi/data/data_providers/report_type_data_provider.dart';
 import 'package:jedi/data/data_providers/student_missing_provider.dart';
 import 'package:jedi/data/data_providers/student_report_provider.dart';
+import 'package:jedi/data/repositories/missing_catagory_repository.dart';
 import 'package:jedi/data/repositories/report_type_repository.dart';
 import 'package:jedi/data/repositories/student_missing_repository.dart';
 import 'package:jedi/data/repositories/student_report_repository.dart';
@@ -18,6 +20,7 @@ import 'core/themes/app_theme.dart';
 import 'data/data_providers/students_data_provider.dart';
 import 'data/repositories/students_repository.dart';
 import 'logic/bloc/students_bloc/students_bloc.dart';
+import 'logic/cubit/report_missing_students/report_missing_students_cubit.dart';
 import 'logic/debug/app_bloc_observer.dart';
 
 // Credits:
@@ -65,6 +68,15 @@ class App extends StatelessWidget {
               repository: StudentMissingRepository(
                 remoteDataProvider:
                     StudentMissingRemoteDataProvider(client: dio),
+              ),
+            ),
+          ),
+          BlocProvider<ReportMissingStudentsCubit>(
+            create: (context) => ReportMissingStudentsCubit(
+              studentsBloc: context.read<StudentsBloc>(),
+              studentMissingCubit: context.read<StudentMissingCubit>(),
+              missingReasonRepository: MissingReasonRepository(
+                remoteDataProvider: MissingReasonDataProvider(client: dio),
               ),
             ),
           ),

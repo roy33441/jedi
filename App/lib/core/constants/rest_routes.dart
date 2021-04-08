@@ -19,4 +19,7 @@ class RestRoutes {
   // StudentMissing
   static final missingStudentsByDate =
       (String date) => '/students/missings/$date';
+
+  // Missing reasons
+  static final missingReason = '/missingReasons';
 }
