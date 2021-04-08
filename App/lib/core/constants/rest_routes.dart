@@ -22,4 +22,7 @@ class RestRoutes {
 
   // Missing reasons
   static final missingReason = '/missingReasons';
+
+  static final repostMissingStudentByDate = (int studentId, String date) =>
+      '/students/studentId/$studentId/missings/$date';
 }

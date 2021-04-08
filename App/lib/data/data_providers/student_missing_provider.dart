@@ -1,4 +1,7 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:jedi/core/failures/failures.dart';
+import 'package:jedi/data/models/missing_reason.dart';
 
 import '../../core/constants/rest_routes.dart';
 import '../../core/utils/format_date.dart';
@@ -18,5 +21,24 @@ class StudentMissingRemoteDataProvider extends RemoteDataProvider {
 
     return List<StudentMissing>.from(response.data!.map(
         (studentMissingJson) => StudentMissing.fromJson(studentMissingJson)));
+  }
+
+  Future<Either<StudentMissingReasonReportFailure, StudentMissing>>
+      reportStudentMissingReasonToday(
+    int studentId,
+    MissingReason reason,
+  ) async {
+    try {
+      final response = await client.put<Map<String, dynamic>>(
+        RestRoutes.repostMissingStudentByDate(
+          studentId,
+          FormatDate.format(DateTime.now()),
+        ),
+        data: reason.toJson(),
+      );
+      return Right(StudentMissing.fromJson(response.data!));
+    } catch (_) {
+      return Left(StudentMissingReasonReportFailure());
+    }
   }
 }

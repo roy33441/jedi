@@ -28,6 +28,7 @@ import 'presentation/widgets/navigator_view.dart';
 void main() {
   Bloc.observer = AppBlocObserver();
   runApp(App());
+  // TODO clean emits of cubits
 }
 
 class App extends StatelessWidget {
@@ -75,6 +76,10 @@ class App extends StatelessWidget {
             create: (context) => ReportMissingStudentsCubit(
               studentsBloc: context.read<StudentsBloc>(),
               studentMissingCubit: context.read<StudentMissingCubit>(),
+              studentMissingRepository: StudentMissingRepository(
+                remoteDataProvider:
+                    StudentMissingRemoteDataProvider(client: dio),
+              ),
               missingReasonRepository: MissingReasonRepository(
                 remoteDataProvider: MissingReasonDataProvider(client: dio),
               ),
