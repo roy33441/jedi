@@ -7,6 +7,7 @@ import 'package:jedi/logic/cubit/student_report/student_report_cubit.dart';
 import 'package:jedi/logic/entities/report_type.dart';
 import 'package:jedi/logic/entities/student.dart';
 import 'package:jedi/logic/entities/student_report.dart';
+import 'package:jedi/presentation/widgets/checkbox_with_title.dart';
 
 class FormationReportDialog extends StatelessWidget {
   final StudentEntity student;
@@ -117,33 +118,23 @@ class FormationReportDialog extends StatelessWidget {
     StudentReportTodayFetchSuccess studentReportState,
   ) {
     final studentReportCubit = context.read<StudentReportCubit>();
-
     return reportTypeState.reportTypes
-        .map((type) => Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Checkbox(
-                  activeColor: Theme.of(context).success,
-                  value: studentReportState.doesHaveReportFromType(type.id),
-                  onChanged: (value) {
-                    if (value == false) {
-                      studentReportCubit.removeReportToStudent(type.id);
-                    } else {
-                      studentReportCubit.addReportToStudent(
-                        StudentReportEntity(
-                          studentId: studentReportState.studentId,
-                          reportType: type,
-                          dateReported: DateTime.now(),
-                        ),
-                      );
-                    }
-                  },
-                ),
-                Text(
-                  type.name,
-                  style: TextStyle(color: Colors.black),
-                ),
-              ],
+        .map((type) => CheckBoxWithTitle(
+              value: studentReportState.doesHaveReportFromType(type.id),
+              onChanged: (value) {
+                if (value == false) {
+                  studentReportCubit.removeReportToStudent(type.id);
+                } else {
+                  studentReportCubit.addReportToStudent(
+                    StudentReportEntity(
+                      studentId: studentReportState.studentId,
+                      reportType: type,
+                      dateReported: DateTime.now(),
+                    ),
+                  );
+                }
+              },
+              title: type.name,
             ))
         .toList();
   }

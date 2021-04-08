@@ -5,7 +5,6 @@ extension RTLScrollableListView on ListView {
       {required BuildContext context,
       required ScrollController controller,
       required Size mediaQuerySize}) {
-    print(mediaQuerySize.width);
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,

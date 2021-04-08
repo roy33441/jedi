@@ -20,15 +20,15 @@ class ManualReportCubit extends Cubit<ManualReportState> {
   void _emitStudentsState(state) {
     if (state is StudentFetchSuccess) {
       emit(ManualReportStudentsFetchSuccess(
-          missingStudents: state.missingStudents, filterPattern: ''));
+          missingStudents: state.missingStudents));
     }
   }
 
-  void changeFilterPattern(String filterPattern) {
+  void unselectStudent() {
     final currentState = state;
-
-    if (currentState is ManualReportStudentsFetchSuccess) {
-      emit(currentState.copyWith(filterPattern: filterPattern));
+    if (currentState is ManualReportStudentPicked) {
+      emit(ManualReportStudentsFetchSuccess(
+          missingStudents: List.of(currentState.missingStudents)));
     }
   }
 
@@ -38,7 +38,6 @@ class ManualReportCubit extends Cubit<ManualReportState> {
     if (currentState is ManualReportStudentsFetchSuccess) {
       emit(ManualReportStudentPicked(
         student: pickedStudent,
-        filterPattern: currentState.filterPattern,
         missingStudents: List.of(currentState.missingStudents),
       ));
     }

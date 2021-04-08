@@ -14,11 +14,11 @@ class MissingStudentsAutocomplete extends HookWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final manualReportState = context.watch<ManualReportCubit>().state;
-    final TextEditingController controller = useTextEditingController(
-      text: manualReportState is ManualReportStudentPicked
-          ? manualReportState.student.fullName
-          : '',
-    );
+    final TextEditingController controller = useTextEditingController();
+
+    if (manualReportState is ManualReportStudentPicked) {
+      controller.text = manualReportState.student.fullName;
+    }
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -44,7 +44,9 @@ class MissingStudentsAutocomplete extends HookWidget {
                   isCollapsed: true,
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.05, vertical: 10)),
+                    horizontal: size.width * 0.05,
+                    vertical: 10,
+                  )),
             ),
             itemBuilder: (BuildContext context, StudentEntity student) {
               return _autocompleteTile(context, student.fullName, true);
@@ -55,31 +57,47 @@ class MissingStudentsAutocomplete extends HookWidget {
             },
             onSuggestionSelected: (StudentEntity suggestion) {
               context.read<ManualReportCubit>().pickStudent(suggestion);
-              // context.read<StudentsBloc>().add(StudentArrived(
-              //     cardId: suggestion.certificateNumber, courseId: 1));
             },
             suggestionsCallback: (String pattern) {
-              final missingStudents =
-                  (context.read<StudentsBloc>().state as StudentFetchSuccess)
-                      .missingStudents;
-              return List.of(missingStudents)
-                  .where((student) => student.fullName.contains(pattern));
+              if (manualReportState is ManualReportStudentPicked) {
+                context.read<ManualReportCubit>().unselectStudent();
+              }
+
+              if (manualReportState is ManualReportStudentsFetchSuccess) {
+                return manualReportState.filteredMissingStudents(pattern);
+              }
+
+              return [];
             },
           ),
         ),
         if (manualReportState is ManualReportStudentPicked)
-          MaterialButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            color: Theme.of(context).success,
-            onPressed: () {},
-            padding: EdgeInsets.symmetric(horizontal: 25),
-            child: Text(
-              'החניך נמצא',
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1!
-                  .copyWith(fontWeight: FontWeight.bold),
+          Padding(
+            padding: EdgeInsets.only(top: size.height * 0.03),
+            child: MaterialButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              color: Theme.of(context).success,
+              onPressed: () {
+                if (manualReportState is ManualReportStudentPicked) {
+                  context.read<StudentsBloc>().add(
+                        StudentArrived(
+                          cardId: manualReportState.student.certificateNumber,
+                          courseId: 1,
+                        ),
+                      );
+
+                  Navigator.of(context).pop();
+                }
+              },
+              padding: EdgeInsets.symmetric(horizontal: 25),
+              child: Text(
+                'החניך נמצא',
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1!
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
             ),
           )
       ],

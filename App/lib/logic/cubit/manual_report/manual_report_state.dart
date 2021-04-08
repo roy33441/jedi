@@ -9,28 +9,16 @@ abstract class ManualReportState extends Equatable {
 
 class ManualReportStudentsFetchSuccess extends ManualReportState {
   final List<StudentEntity> missingStudents;
-  final String filterPattern;
 
-  ManualReportStudentsFetchSuccess(
-      {required this.missingStudents, required this.filterPattern});
+  ManualReportStudentsFetchSuccess({required this.missingStudents});
 
-  List<StudentEntity> get filteredMissingStudents =>
+  List<StudentEntity> filteredMissingStudents(String filterPattern) =>
       List<StudentEntity>.of(missingStudents)
           .where((student) => student.fullName.contains(filterPattern))
           .toList();
 
-  ManualReportStudentsFetchSuccess copyWith({
-    List<StudentEntity>? missingStudents,
-    String? filterPattern,
-  }) {
-    return ManualReportStudentsFetchSuccess(
-      missingStudents: missingStudents ?? this.missingStudents,
-      filterPattern: filterPattern ?? this.filterPattern,
-    );
-  }
-
   @override
-  List<Object> get props => [missingStudents, filterPattern];
+  List<Object> get props => [missingStudents];
 }
 
 class ManualReportStudentPicked extends ManualReportStudentsFetchSuccess {
@@ -38,12 +26,11 @@ class ManualReportStudentPicked extends ManualReportStudentsFetchSuccess {
 
   ManualReportStudentPicked({
     required this.student,
-    required String filterPattern,
     required List<StudentEntity> missingStudents,
-  }) : super(missingStudents: missingStudents, filterPattern: filterPattern);
+  }) : super(missingStudents: missingStudents);
 
   @override
-  List<Object> get props => [student, missingStudents, filterPattern];
+  List<Object> get props => [student, missingStudents];
 }
 
 class ManualReportStudentActionInProgress extends ManualReportState {}
