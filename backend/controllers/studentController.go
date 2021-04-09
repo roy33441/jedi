@@ -36,6 +36,7 @@ func NewStudentController(
 
 	router.PUT("/", controller.updateStudent)
 	router.PUT("/studentId/:id/reportTypes/:day", controller.saveStudentReportDay)
+	router.PUT("/studentId/:id/missings/:day", controller.reportStudentMissingReason)
 
 	router.PATCH("/card/:cardId/arrived/course/:courseId", controller.updateStudentArrived)
 	router.PATCH("/card/:cardId/left/course/:courseId", controller.updateStudentLeft)
@@ -74,6 +75,30 @@ func (controller *StudentController) saveStudentReportDay(context *gin.Context) 
 
 	result, err := controller.studentReportService.AddStudentReportDay(
 		*studentId, *day, reportTypeIds,
+	)
+
+	utils.HandleStandardHTTPRequest(context, result, err)
+}
+
+func (controller *StudentController) reportStudentMissingReason(context *gin.Context) {
+	id := new(int)
+	day := new(time.Time)
+	var missingReason models.MissingReason
+
+	if !utils.CheckConvertParamToInt(context, context.Param("id"), id) {
+		return
+	}
+
+	if !utils.CheckConvertParamToDate(context, context.Param("day"), day) {
+		return
+	}
+
+	if !utils.CheckBodyContentBind(context, &missingReason) {
+		return
+	}
+
+	result, err := controller.missingStudentService.ReportStudentMissingReason(
+		*id, *day, &missingReason,
 	)
 
 	utils.HandleStandardHTTPRequest(context, result, err)

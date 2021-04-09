@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:jedi/data/repositories/student_missing_repository.dart';
 
 import '../../../data/repositories/missing_catagory_repository.dart';
 import '../../bloc/students_bloc/students_bloc.dart';
@@ -14,6 +15,7 @@ part 'report_missing_students_state.dart';
 
 class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
   final MissingReasonRepository missingReasonRepository;
+  final StudentMissingRepository studentMissingRepository;
   StreamSubscription? _streamSub;
   StreamSubscription? _streamSubStudentsMissing;
   StreamSubscription? _streamSubStudents;
@@ -24,12 +26,27 @@ class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
     required this.studentsBloc,
     required this.studentMissingCubit,
     required this.missingReasonRepository,
+    required this.studentMissingRepository,
   }) : super(ReportMissingStudentsInProgress()) {
     studentMissingCubit.getMissingStudentsToday();
     getMissingReasons();
-    _streamSubStudents = studentsBloc.stream.listen((event) {});
-    _streamSubStudentsMissing = studentMissingCubit.stream.listen((event) {});
-    _streamSub = stream.listen((event) {});
+    listenStreams();
+  }
+
+  void listenStreams() {
+    _streamSubStudents = studentsBloc.stream.listen((studentsState) {
+      emit(_mapStudentsAndMissingToState(
+          studentsState, state, studentMissingCubit.state));
+    });
+    _streamSubStudentsMissing =
+        studentMissingCubit.stream.listen((studentsMissingState) {
+      emit(_mapStudentsAndMissingToState(
+          studentsBloc.state, state, studentsMissingState));
+    });
+    _streamSub = stream.listen((state) {
+      emit(_mapStudentsAndMissingToState(
+          studentsBloc.state, state, studentMissingCubit.state));
+    });
   }
 
   ReportMissingStudentsState _mapStudentsAndMissingToState(
@@ -77,6 +94,40 @@ class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
             .firstWhere((reason) => reason.text == missingReason),
         missingReasons: currentState.missingReasons,
       ));
+    }
+  }
+
+  void reportMissingStudent(StudentEntity student) async {
+    final currentState = state;
+    if (currentState is ReportMissingStudentsSuccess) {
+      emit(ReportMissingStudentsSuccess(
+        missingStudents: currentState.missingStudents,
+        missingReason: currentState.missingReason,
+        studentsMissingWithReason: [...currentState.studentsMissingWithReason]
+          ..add(
+            StudentMissingEntity(
+              studentId: student.id,
+              reason: currentState.missingReason,
+              missingOn: DateTime.now(),
+            ),
+          ),
+        missingReasons: currentState.missingReasons,
+      ));
+
+      final reoprtStudentMissingResult =
+          await studentMissingRepository.reportStudentMissingReasonToday(
+        student.id,
+        currentState.missingReason,
+      );
+
+      if (reoprtStudentMissingResult.isLeft()) {
+        emit(ReportMissingStudentsFailure(
+            prevState: currentState.copyWith(
+              missingStudents: [...currentState.missingStudents]
+                ..remove(student),
+            ),
+            failedStudent: student));
+      }
     }
   }
 

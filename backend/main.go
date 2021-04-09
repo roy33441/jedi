@@ -28,7 +28,7 @@ func init() {
 
 func initDB() *sqlx.DB {
 	db, err := config.ConnectDB()
-	
+
 	if err != nil {
 		log.Fatal("Error connecting to the db\t", err)
 		panic(err)

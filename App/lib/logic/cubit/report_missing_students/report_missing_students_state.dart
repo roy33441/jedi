@@ -49,4 +49,41 @@ class ReportMissingStudentsSuccess
           .map((missingStudent) => missingStudents
               .firstWhere((student) => missingStudent.studentId == student.id))
           .toList();
+
+  ReportMissingStudentsSuccess copyWith({
+    List<StudentEntity>? missingStudents,
+    MissingReasonEntity? missingReason,
+    List<StudentMissingEntity>? studentsMissingWithReason,
+    List<MissingReasonEntity>? missingReasons,
+  }) {
+    return ReportMissingStudentsSuccess(
+      missingStudents: missingStudents ?? this.missingStudents,
+      missingReason: missingReason ?? this.missingReason,
+      studentsMissingWithReason:
+          studentsMissingWithReason ?? this.studentsMissingWithReason,
+      missingReasons: missingReasons ?? this.missingReasons,
+    );
+  }
+}
+
+class ReportMissingStudentsFailure extends ReportMissingStudentsSuccess {
+  final StudentEntity failedStudent;
+  ReportMissingStudentsFailure({
+    required ReportMissingStudentsSuccess prevState,
+    required this.failedStudent,
+  }) : super(
+          missingReason: prevState.missingReason,
+          missingReasons: prevState.missingReasons,
+          missingStudents: prevState.missingStudents,
+          studentsMissingWithReason: prevState.studentsMissingWithReason,
+        );
+
+  @override
+  List<Object> get props => [
+        missingReason,
+        missingReasons,
+        missingStudents,
+        studentsMissingWithReason,
+        failedStudent
+      ];
 }

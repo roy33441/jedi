@@ -15,3 +15,9 @@ var (
 		missingStudentTable,
 	)
 )
+
+var (
+	SAVE_MISSING_STUDENT = fmt.Sprintf(`INSERT INTO %s(student_id, reason_id, missing_on)
+										VALUES($1, $2, $3)
+										RETURNING *`, missingStudentTable)
+)
