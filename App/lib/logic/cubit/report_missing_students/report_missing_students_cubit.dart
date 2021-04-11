@@ -27,7 +27,7 @@ class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
     required this.studentMissingCubit,
     required this.missingReasonRepository,
     required this.studentMissingRepository,
-  }) : super(ReportMissingStudentsInProgress()) {
+  }) : super(ReportMissingStudentsState()) {
     studentMissingCubit.getMissingStudentsToday();
     getMissingReasons();
     listenStreams();
@@ -56,77 +56,57 @@ class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
   ) {
     if (studentState is StudentFetchSuccess &&
         missingStudentState is StudentMissingTodayFetchSuccess &&
-        currentState is ReportMissingStudentsFetchReasonsSuccuess) {
-      return ReportMissingStudentsSuccess(
+        currentState.missingReasons!.length > 0) {
+      return currentState.copyWith(
         missingStudents: studentState.missingStudents,
-        missingReason: currentState.missingReason,
         studentsMissingWithReason: missingStudentState.missingStudents,
-        missingReasons: currentState.missingReasons,
+        status: ReportMissingStudentsStatus.succuess,
       );
     }
     return currentState;
   }
 
   Future<void> getMissingReasons() async {
-    emit(ReportMissingStudentsInProgress());
+    emit(state.copyWith(status: ReportMissingStudentsStatus.loading));
     final missingReasons = await missingReasonRepository.getMissingReasons();
-    emit(ReportMissingStudentsFetchReasonsSuccuess(
-      missingReason: missingReasons.length > 0
-          ? missingReasons[0]
-          : MissingReasonEntity(id: 666, text: 'רועיקי וגוסיר'),
-      missingReasons: missingReasons,
-    ));
+    emit(state.copyWith(
+        missingReason: missingReasons.length > 0
+            ? missingReasons[0]
+            : MissingReasonEntity(id: 666, text: 'רועיקי וגוסיר'),
+        missingReasons: missingReasons,
+        status: ReportMissingStudentsStatus.loading));
   }
 
   void changeReason(String missingReason) {
     final currentState = state;
-    if (currentState is ReportMissingStudentsSuccess) {
-      emit(ReportMissingStudentsSuccess(
-        missingStudents: currentState.missingStudents,
-        missingReason: currentState.missingReasons
-            .firstWhere((reason) => reason.text == missingReason),
-        studentsMissingWithReason: currentState.studentsMissingWithReason,
-        missingReasons: currentState.missingReasons,
-      ));
-    } else if (currentState is ReportMissingStudentsFetchReasonsSuccuess) {
-      emit(ReportMissingStudentsFetchReasonsSuccuess(
-        missingReason: currentState.missingReasons
-            .firstWhere((reason) => reason.text == missingReason),
-        missingReasons: currentState.missingReasons,
-      ));
-    }
+    emit(currentState.copyWith(
+      missingReason: currentState.missingReasons!
+          .firstWhere((reason) => reason.text == missingReason),
+    ));
   }
 
   void reportMissingStudent(StudentEntity student) async {
     final currentState = state;
-    if (currentState is ReportMissingStudentsSuccess) {
-      emit(ReportMissingStudentsSuccess(
-        missingStudents: currentState.missingStudents,
-        missingReason: currentState.missingReason,
-        studentsMissingWithReason: [...currentState.studentsMissingWithReason]
-          ..add(
-            StudentMissingEntity(
-              studentId: student.id,
-              reason: currentState.missingReason,
-              missingOn: DateTime.now(),
-            ),
-          ),
-        missingReasons: currentState.missingReasons,
-      ));
+    if (currentState.status == ReportMissingStudentsStatus.succuess) {
+      studentMissingCubit.addMissingStudent(
+        StudentMissingEntity(
+          studentId: student.id,
+          reason: currentState.missingReason!,
+          missingOn: DateTime.now(),
+        ),
+      );
 
       final reoprtStudentMissingResult =
           await studentMissingRepository.reportStudentMissingReasonToday(
         student.id,
-        currentState.missingReason,
+        currentState.missingReason!,
       );
 
       if (reoprtStudentMissingResult.isLeft()) {
-        emit(ReportMissingStudentsFailure(
-            prevState: currentState.copyWith(
-              missingStudents: [...currentState.missingStudents]
-                ..remove(student),
-            ),
-            failedStudent: student));
+        emit(currentState.copyWith(
+          missingStudents: [...currentState.missingStudents]..remove(student),
+          failedStudent: student,
+        ));
       }
     }
   }

@@ -5,8 +5,7 @@ import '../cubit/report_missing_students/report_missing_students_cubit.dart';
 class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase base, Change change) {
-    if (change.currentState is ReportMissingStudentsFetchReasonsSuccuess)
-      print(change);
+    print(change);
     super.onChange(base, change);
   }
 

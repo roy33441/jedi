@@ -12,17 +12,12 @@ class MissingCatagory extends StatelessWidget {
 
     final reportMissingStudentCubit =
         context.read<ReportMissingStudentsCubit>();
-    final items = context
+    final reasons = context
         .select<ReportMissingStudentsCubit, List<MissingReasonEntity>>((cubit) {
       final currentState = cubit.state;
-      if (currentState is ReportMissingStudentsSuccess) {
-        return currentState.missingReasons;
-      }
-
-      if (currentState is ReportMissingStudentsFetchReasonsSuccuess) {
-        return currentState.missingReasons;
-      }
-      return [];
+      return currentState.missingReasons!.length > 0
+          ? currentState.missingReasons!
+          : [];
     });
 
     return Container(
@@ -39,7 +34,7 @@ class MissingCatagory extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if (items.length > 0)
+              if (reasons.length > 0)
                 Directionality(
                   textDirection: TextDirection.rtl,
                   child: ConstrainedBox(
@@ -66,16 +61,16 @@ class MissingCatagory extends StatelessWidget {
                         ),
                       ),
                       selectedItemBuilder: (context) => _buildMenuItems(
-                        items,
+                        reasons,
                         Theme.of(context).textTheme.bodyText1!.copyWith(
                             fontSize: 20, fontWeight: FontWeight.w500),
                         false,
                       ),
-                      value: items[0].text,
+                      value: reasons[0].text,
                       onChanged: (String? value) =>
                           reportMissingStudentCubit.changeReason(value!),
                       items: _buildMenuItems(
-                        items,
+                        reasons,
                         TextStyle(
                           color: Colors.black,
                           fontSize: 20,

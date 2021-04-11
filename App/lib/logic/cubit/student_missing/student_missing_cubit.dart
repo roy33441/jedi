@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:jedi/logic/entities/student.dart';
 
 import '../../../data/repositories/student_missing_repository.dart';
 import '../../entities/missing_reason.dart';
@@ -19,5 +20,16 @@ class StudentMissingCubit extends Cubit<StudentMissingState> {
     final missingStudentsToday = await repository.getMissingStudentsToday();
     emit(
         StudentMissingTodayFetchSuccess(missingStudents: missingStudentsToday));
+  }
+
+  void addMissingStudent(StudentMissingEntity studentEntity) {
+    final currentState = state;
+    if (currentState is StudentMissingTodayFetchSuccess) {
+      emit(
+        StudentMissingTodayFetchSuccess(
+          missingStudents: [...currentState.missingStudents, studentEntity],
+        ),
+      );
+    }
   }
 }

@@ -14,10 +14,10 @@ class MissingScreen extends StatelessWidget {
           BlocListener<ReportMissingStudentsCubit, ReportMissingStudentsState>(
         listener: (context, state) {
           final currentState = state;
-          if (currentState is ReportMissingStudentsFailure) {
+          if (currentState.status == ReportMissingStudentsStatus.failure) {
             ReportMissingStudentFailedFlushbar(
               context: context,
-              studentName: currentState.failedStudent.fullName,
+              studentName: currentState.failedStudent!.fullName,
             )..show(context);
           }
         },

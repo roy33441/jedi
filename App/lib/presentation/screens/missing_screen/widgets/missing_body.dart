@@ -9,21 +9,9 @@ import 'missing_catagory.dart';
 class MissingBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final missingStudents = context
-        .select<ReportMissingStudentsCubit, List<StudentEntity>>((cubit) {
-      final currentState = cubit.state;
-      return currentState is ReportMissingStudentsSuccess
-          ? currentState.missingStudents
-          : [];
-    });
+    final reportMissingStudentsCubit =
+        context.watch<ReportMissingStudentsCubit>().state;
 
-    final missingWithReasonStudents = context
-        .select<ReportMissingStudentsCubit, List<StudentEntity>>((cubit) {
-      final currentState = cubit.state;
-      return currentState is ReportMissingStudentsSuccess
-          ? currentState.missingStudentsByEntity
-          : [];
-    });
     final screenSize = MediaQuery.of(context).size;
 
     return Container(
@@ -34,7 +22,8 @@ class MissingBody extends StatelessWidget {
             height: screenSize.height * 0.3,
             child: StudentsChips(
               backgroundColor: Theme.of(context).textTheme.bodyText2!.color!,
-              missingStudents: missingWithReasonStudents,
+              missingStudents:
+                  reportMissingStudentsCubit.missingStudentsByEntity,
               onPress: (StudentEntity student) {},
               icon: Icon(
                 Icons.close,
@@ -49,7 +38,8 @@ class MissingBody extends StatelessWidget {
           Expanded(
             child: StudentsChips(
               backgroundColor: Theme.of(context).highlightColor,
-              missingStudents: missingStudents,
+              missingStudents:
+                  reportMissingStudentsCubit.missingStudentsWithoutReason,
               onPress: (StudentEntity student) {
                 context
                     .read<ReportMissingStudentsCubit>()

@@ -1,47 +1,23 @@
 part of 'report_missing_students_cubit.dart';
 
-abstract class ReportMissingStudentsState extends Equatable {
-  const ReportMissingStudentsState();
+enum ReportMissingStudentsStatus { initial, loading, succuess, failure }
 
-  @override
-  List<Object> get props => [];
-}
-
-class ReportMissingStudentsInProgress extends ReportMissingStudentsState {}
-
-class ReportMissingStudentsFetchReasonsSuccuess
-    extends ReportMissingStudentsState {
-  final MissingReasonEntity missingReason;
-  final List<MissingReasonEntity> missingReasons;
-
-  ReportMissingStudentsFetchReasonsSuccuess({
-    required this.missingReason,
-    required this.missingReasons,
-  });
-
-  @override
-  List<Object> get props => [missingReason, missingReasons];
-}
-
-class ReportMissingStudentsSuccess
-    extends ReportMissingStudentsFetchReasonsSuccuess {
+class ReportMissingStudentsState extends Equatable {
+  final StudentEntity? failedStudent;
+  final MissingReasonEntity? missingReason;
+  final List<MissingReasonEntity>? missingReasons;
   final List<StudentEntity> missingStudents;
   final List<StudentMissingEntity> studentsMissingWithReason;
+  final ReportMissingStudentsStatus status;
 
-  ReportMissingStudentsSuccess({
-    required this.missingStudents,
-    required MissingReasonEntity missingReason,
-    required this.studentsMissingWithReason,
-    required List<MissingReasonEntity> missingReasons,
-  }) : super(missingReason: missingReason, missingReasons: missingReasons);
-
-  @override
-  List<Object> get props => [
-        missingReason,
-        missingReasons,
-        missingStudents,
-        studentsMissingWithReason
-      ];
+  ReportMissingStudentsState({
+    this.failedStudent,
+    this.missingReason,
+    this.missingReasons,
+    this.missingStudents = const <StudentEntity>[],
+    this.studentsMissingWithReason = const <StudentMissingEntity>[],
+    this.status = ReportMissingStudentsStatus.initial,
+  });
 
   List<StudentEntity> get missingStudentsByEntity =>
       [...studentsMissingWithReason]
@@ -50,40 +26,38 @@ class ReportMissingStudentsSuccess
               .firstWhere((student) => missingStudent.studentId == student.id))
           .toList();
 
-  ReportMissingStudentsSuccess copyWith({
+  List<StudentEntity> get missingStudentsWithoutReason =>
+      [...missingStudents].where((student) {
+        return studentsMissingWithReason.indexWhere(
+                (studentMissing) => studentMissing.studentId == student.id) ==
+            -1;
+      }).toList();
+
+  ReportMissingStudentsState copyWith({
+    StudentEntity? failedStudent,
     List<StudentEntity>? missingStudents,
     MissingReasonEntity? missingReason,
     List<StudentMissingEntity>? studentsMissingWithReason,
     List<MissingReasonEntity>? missingReasons,
+    ReportMissingStudentsStatus? status,
   }) {
-    return ReportMissingStudentsSuccess(
-      missingStudents: missingStudents ?? this.missingStudents,
-      missingReason: missingReason ?? this.missingReason,
-      studentsMissingWithReason:
-          studentsMissingWithReason ?? this.studentsMissingWithReason,
-      missingReasons: missingReasons ?? this.missingReasons,
-    );
+    return ReportMissingStudentsState(
+        failedStudent: failedStudent ?? this.failedStudent,
+        missingStudents: missingStudents ?? this.missingStudents,
+        missingReason: missingReason ?? this.missingReason,
+        studentsMissingWithReason:
+            studentsMissingWithReason ?? this.studentsMissingWithReason,
+        missingReasons: missingReasons ?? this.missingReasons,
+        status: status ?? this.status);
   }
-}
-
-class ReportMissingStudentsFailure extends ReportMissingStudentsSuccess {
-  final StudentEntity failedStudent;
-  ReportMissingStudentsFailure({
-    required ReportMissingStudentsSuccess prevState,
-    required this.failedStudent,
-  }) : super(
-          missingReason: prevState.missingReason,
-          missingReasons: prevState.missingReasons,
-          missingStudents: prevState.missingStudents,
-          studentsMissingWithReason: prevState.studentsMissingWithReason,
-        );
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         missingReason,
         missingReasons,
         missingStudents,
         studentsMissingWithReason,
-        failedStudent
+        failedStudent,
+        status,
       ];
 }
