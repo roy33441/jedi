@@ -66,7 +66,8 @@ class MissingCatagory extends StatelessWidget {
                             fontSize: 20, fontWeight: FontWeight.w500),
                         false,
                       ),
-                      value: reasons[0].text,
+                      value:
+                          reportMissingStudentCubit.state.missingReason!.text,
                       onChanged: (String? value) =>
                           reportMissingStudentCubit.changeReason(value!),
                       items: _buildMenuItems(

@@ -25,4 +25,7 @@ class RestRoutes {
 
   static final repostMissingStudentByDate = (int studentId, String date) =>
       '/students/studentId/$studentId/missings/$date';
+
+  static final removeMissingStudentByDate = (int studentId, String date) =>
+      '/students/studentId/$studentId/missings/$date/cancel';
 }

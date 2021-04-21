@@ -111,6 +111,25 @@ class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
     }
   }
 
+  void removeMissingStudent(StudentEntity student) async {
+    final currentState = state;
+    if (currentState.status == ReportMissingStudentsStatus.succuess) {
+      studentMissingCubit.removeMissingStudent(student.id);
+
+      final reoprtStudentMissingResult =
+          await studentMissingRepository.removeStudentMissingReasonToday(
+        student.id,
+      );
+
+      if (reoprtStudentMissingResult.isLeft()) {
+        emit(currentState.copyWith(
+          missingStudents: [...currentState.missingStudents]..remove(student),
+          failedStudent: student,
+        ));
+      }
+    }
+  }
+
   @override
   Future<void> close() {
     _streamSub?.cancel();

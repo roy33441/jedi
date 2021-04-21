@@ -41,4 +41,19 @@ class StudentMissingRemoteDataProvider extends RemoteDataProvider {
       return Left(StudentMissingReasonReportFailure());
     }
   }
+
+  Future<Either<StudentMissingReasonReportFailure, StudentMissing>>
+      removeStudentMissingReasonToday(int studentId) async {
+    try {
+      final response = await client.patch<Map<String, dynamic>>(
+        RestRoutes.removeMissingStudentByDate(
+          studentId,
+          FormatDate.format(DateTime.now()),
+        ),
+      );
+      return Right(StudentMissing.fromJson(response.data!));
+    } catch (_) {
+      return Left(StudentMissingReasonReportFailure());
+    }
+  }
 }

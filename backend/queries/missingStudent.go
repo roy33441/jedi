@@ -21,3 +21,7 @@ var (
 										VALUES($1, $2, $3)
 										RETURNING *`, missingStudentTable)
 )
+
+var (
+	REMOVE_MISSING_STUDENT = fmt.Sprintf(`DELETE FROM %s WHERE student_id=$1`, missingStudentTable)
+)

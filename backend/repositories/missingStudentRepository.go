@@ -27,6 +27,17 @@ func (pgsqlRepo *PsqlMissingStudentRepository) SaveStudentMissingReason(id int, 
 	return &missingStudent[0], nil
 }
 
+func (pgsqlRepo *PsqlMissingStudentRepository) RemoveStudentMissingReason(id int, date time.Time) (*models.MissingStudent, error) {
+	missingStudent := []models.MissingStudent{}
+	err := pgsqlRepo.conn.Select(&missingStudent, queries.REMOVE_MISSING_STUDENT, id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &missingStudent[0], nil
+}
+
 func (psqlRepo *PsqlMissingStudentRepository) GetByDate(
 	day time.Time,
 ) (*[]models.MissingStudent, error) {

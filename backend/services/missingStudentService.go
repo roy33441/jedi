@@ -39,6 +39,20 @@ func (service *MissingStudentService) ReportStudentMissingReason(
 
 	return missingStudent, nil
 }
+
+func (service *MissingStudentService) RemoveReportStudentMissingReason(
+	id int,
+	date time.Time,
+) (*models.MissingStudent, error) {
+	missingStudent, err := service.missingStudentRepository.RemoveStudentMissingReason(id, date)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return missingStudent, nil
+}
+
 func (service *MissingStudentService) GetMissingAtDate(date time.Time) (*[]models.MissingStudent, error) {
 	missingStudents, err := service.missingStudentRepository.GetByDate(date)
 

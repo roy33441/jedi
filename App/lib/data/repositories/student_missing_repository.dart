@@ -36,4 +36,17 @@ class StudentMissingRepository {
       (model) => Right(StudentMissingEntity.fromModel(model)),
     );
   }
+
+  Future<Either<StudentMissingReasonReportFailure, StudentMissingEntity>>
+      removeStudentMissingReasonToday(int studentId) async {
+    final rawStudentMissing =
+        await remoteDataProvider.removeStudentMissingReasonToday(studentId);
+
+    return rawStudentMissing.fold(
+      (failure) => Left(failure),
+      (model) => Right(
+        StudentMissingEntity.fromModel(model),
+      ),
+    );
+  }
 }

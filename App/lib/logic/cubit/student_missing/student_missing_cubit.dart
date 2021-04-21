@@ -32,4 +32,16 @@ class StudentMissingCubit extends Cubit<StudentMissingState> {
       );
     }
   }
+
+  void removeMissingStudent(int studentId) {
+    final currentState = state;
+    if (currentState is StudentMissingTodayFetchSuccess) {
+      emit(
+        StudentMissingTodayFetchSuccess(
+          missingStudents: [...currentState.missingStudents]
+            ..removeWhere((student) => student.studentId == studentId),
+        ),
+      );
+    }
+  }
 }

@@ -32,6 +32,7 @@ class MissingStudentsListView extends HookWidget {
         context: context,
         controller: _controller,
         mediaQuerySize: size,
+        height: 0.35,
       );
     } else {
       return _fetchInProgress(context);

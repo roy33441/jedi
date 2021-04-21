@@ -24,7 +24,11 @@ class MissingBody extends StatelessWidget {
               backgroundColor: Theme.of(context).textTheme.bodyText2!.color!,
               missingStudents:
                   reportMissingStudentsCubit.missingStudentsByEntity,
-              onPress: (StudentEntity student) {},
+              onPress: (StudentEntity student) {
+                context
+                    .read<ReportMissingStudentsCubit>()
+                    .removeMissingStudent(student);
+              },
               icon: Icon(
                 Icons.close,
                 color: Colors.white,
