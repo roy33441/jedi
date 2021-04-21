@@ -15,9 +15,8 @@ class MissingCatagory extends StatelessWidget {
     final reasons = context
         .select<ReportMissingStudentsCubit, List<MissingReasonEntity>>((cubit) {
       final currentState = cubit.state;
-      return currentState.missingReasons!.length > 0
-          ? currentState.missingReasons!
-          : [];
+
+      return currentState.missingReasons ?? [];
     });
 
     return Container(

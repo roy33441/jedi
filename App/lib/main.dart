@@ -35,6 +35,9 @@ class App extends StatelessWidget {
   final dio = Dio(
     BaseOptions(
       baseUrl: 'http://10.0.2.2:8080',
+      receiveDataWhenStatusError: true,
+      connectTimeout: 5 * 1000,
+      receiveTimeout: 60 * 1000,
     ),
   );
 

@@ -103,9 +103,10 @@ class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
       );
 
       if (reoprtStudentMissingResult.isLeft()) {
+        studentMissingCubit.removeMissingStudent(student.id);
         emit(currentState.copyWith(
-          missingStudents: [...currentState.missingStudents]..remove(student),
           failedStudent: student,
+          status: ReportMissingStudentsStatus.failure,
         ));
       }
     }
@@ -114,6 +115,9 @@ class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
   void removeMissingStudent(StudentEntity student) async {
     final currentState = state;
     if (currentState.status == ReportMissingStudentsStatus.succuess) {
+      final missingStudent = currentState.studentsMissingWithReason.firstWhere(
+          (studentMissing) => studentMissing.studentId == student.id);
+
       studentMissingCubit.removeMissingStudent(student.id);
 
       final reoprtStudentMissingResult =
@@ -122,9 +126,10 @@ class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
       );
 
       if (reoprtStudentMissingResult.isLeft()) {
+        studentMissingCubit.addMissingStudent(missingStudent);
         emit(currentState.copyWith(
-          missingStudents: [...currentState.missingStudents]..remove(student),
           failedStudent: student,
+          status: ReportMissingStudentsStatus.failure,
         ));
       }
     }

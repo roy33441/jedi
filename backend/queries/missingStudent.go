@@ -23,5 +23,5 @@ var (
 )
 
 var (
-	REMOVE_MISSING_STUDENT = fmt.Sprintf(`DELETE FROM %s WHERE student_id=$1`, missingStudentTable)
+	REMOVE_MISSING_STUDENT = fmt.Sprintf(`DELETE FROM %s WHERE student_id=$1 AND missing_on=$2 RETURNING *`, missingStudentTable)
 )

@@ -21,8 +21,10 @@ class StudentsChips extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _controller = useScrollController();
     final size = MediaQuery.of(context).size;
     return ListView(
+      controller: _controller,
       children: [
         Wrap(
           alignment: WrapAlignment.center,
@@ -51,7 +53,7 @@ class StudentsChips extends HookWidget {
       ],
     ).addRtlAndScroll(
       context: context,
-      controller: useScrollController(),
+      controller: _controller,
       mediaQuerySize: size,
       height: 0.35,
     );

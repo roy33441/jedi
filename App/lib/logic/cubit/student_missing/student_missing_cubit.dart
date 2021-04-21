@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:jedi/logic/entities/student.dart';
 
 import '../../../data/repositories/student_missing_repository.dart';
 import '../../entities/missing_reason.dart';

@@ -12,18 +12,40 @@ class MissingBody extends StatelessWidget {
     final reportMissingStudentsCubit =
         context.watch<ReportMissingStudentsCubit>().state;
 
-    final screenSize = MediaQuery.of(context).size;
-
     return Container(
       child: Column(
         children: [
           MissingCatagory(),
+          reportMissingStudentsCubit.missingStudentsByEntity.isEmpty &&
+                  reportMissingStudentsCubit
+                      .missingStudentsWithoutReason.isEmpty
+              ? Expanded(
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Theme.of(context).primaryColor),
+                    ),
+                  ),
+                )
+              : _loadedBody(
+                  context,
+                  reportMissingStudentsCubit,
+                ),
+        ],
+      ),
+    );
+  }
+
+  Widget _loadedBody(BuildContext context, ReportMissingStudentsState cubit) {
+    final screenSize = MediaQuery.of(context).size;
+    return Expanded(
+      child: Column(
+        children: [
           Container(
             height: screenSize.height * 0.3,
             child: StudentsChips(
               backgroundColor: Theme.of(context).textTheme.bodyText2!.color!,
-              missingStudents:
-                  reportMissingStudentsCubit.missingStudentsByEntity,
+              missingStudents: cubit.missingStudentsByEntity,
               onPress: (StudentEntity student) {
                 context
                     .read<ReportMissingStudentsCubit>()
@@ -42,15 +64,14 @@ class MissingBody extends StatelessWidget {
           Expanded(
             child: StudentsChips(
               backgroundColor: Theme.of(context).highlightColor,
-              missingStudents:
-                  reportMissingStudentsCubit.missingStudentsWithoutReason,
+              missingStudents: cubit.missingStudentsWithoutReason,
               onPress: (StudentEntity student) {
                 context
                     .read<ReportMissingStudentsCubit>()
                     .reportMissingStudent(student);
               },
             ),
-          )
+          ),
         ],
       ),
     );
