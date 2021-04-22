@@ -53,7 +53,7 @@ func initControllers(route *gin.Engine, db *sqlx.DB) {
 	missingStudentService := services.NewMissingStudentService(missingStudentRepo, missingReasonRepo)
 
 	controllers.NewCourseController(
-		route.Group("/course"),
+		route.Group("/courses"),
 		*courseService,
 		*studentService,
 	)

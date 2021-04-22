@@ -28,4 +28,7 @@ class RestRoutes {
 
   static final removeMissingStudentByDate = (int studentId, String date) =>
       '/students/studentId/$studentId/missings/$date/cancel';
+
+  // Courses
+  static final openCourses = '/courses/current';
 }
