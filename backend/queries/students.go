@@ -57,4 +57,13 @@ var (
 		RETURNING *`,
 		studentTable,
 	)
+	STUDENT_RESET_PRESENT = fmt.Sprintf(
+		`UPDATE %[1]s
+		SET is_present=false
+		FROM %[2]s
+		WHERE %[1]s.course_id=%[2]s.course_id AND 
+		%[1]s.is_present=true AND %[2]s.date_ending > $1`,
+		studentTable,
+		courseTable,
+	)
 )

@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type Student struct {
 	Id                int    `json:"id" db:"student_id"`
 	CertificateNumber int    `json:"certificate_number" db:"certificate_number"`
@@ -10,13 +12,14 @@ type Student struct {
 }
 
 type StudentRepository interface {
-	GetByCourseId(int) (*[]Student, error)
-	CountInCourse(int) (int, error)
-	CountArrivedInCourse(int) (int, error)
-	GetAll() (*[]Student, error)
-	GetByCardId(int) (*Student, error)
-	UpdatePresent(int, bool) (*Student, error)
-	Add(Student) (*Student, error)
-	Delete(int) (*Student, error)
-	Update(Student) (*Student, error)
+	GetByCourseId(int)					(*[]Student, error)
+	CountInCourse(int)					(int, error)
+	CountArrivedInCourse(int)			(int, error)
+	GetAll()							(*[]Student, error)
+	GetByCardId(int)					(*Student, error)
+	UpdatePresent(int, bool)			(*Student, error)
+	Add(Student)						(*Student, error)
+	Delete(int)							(*Student, error)
+	Update(Student)						(*Student, error)
+	ResetPresent(time.Time)				(int, error)
 }

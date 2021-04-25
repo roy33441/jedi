@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"time"
+
 	"dev.azure.com/u8635137/_git/Jedi/backend/models"
 	"dev.azure.com/u8635137/_git/Jedi/backend/queries"
 	"github.com/jmoiron/sqlx"
@@ -172,4 +174,23 @@ func (psqlRepo *PsqlStudentRepository) UpdatePresent(id int, present bool) (*mod
 	}
 
 	return &student, nil
+}
+
+func (psqlRepo *PsqlStudentRepository) ResetPresent(today time.Time) (int, error) {
+	result, err := psqlRepo.conn.Exec(
+		queries.STUDENT_RESET_PRESENT,
+		today,
+	)
+
+	if err != nil {
+		return 0, err
+	}
+
+	effectedCount, err := result.RowsAffected()
+
+	if err != nil {
+		return 0, err
+	}
+
+	return int(effectedCount), nil
 }

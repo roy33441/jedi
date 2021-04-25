@@ -1,6 +1,9 @@
 package services
 
 import (
+	"fmt"
+	"time"
+
 	"dev.azure.com/u8635137/_git/Jedi/backend/core"
 	"dev.azure.com/u8635137/_git/Jedi/backend/models"
 )
@@ -13,6 +16,16 @@ func NewStudentService(
 		studentRepository models.StudentRepository,
 	) *StudentService {
 	return &StudentService{studentRepository}
+}
+
+func (service *StudentService) ResetPresentStatus() {
+	count, err := service.studentRepository.ResetPresent(time.Now())
+
+	if err != nil {
+		fmt.Println("Error reset present: " + err.Error())
+	} else {
+		fmt.Printf("%d students present status reset", count)
+	}
 }
 
 func (service *StudentService) GetAll() (*[]models.Student, error) {
