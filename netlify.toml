@@ -1,7 +1,6 @@
 [build]
   command = "ls"
   functions = "functions"
-  publish = "public"
 
 [build.environment]
   GO_IMPORT_PATH = "github.com/roy33441/jedi"
