@@ -1,0 +1,13 @@
+[build]
+  command = "./backend/build.sh"
+  functions = "functions"
+  publish = "public"
+
+[build.environment]
+  GO_IMPORT_PATH = "github.com/roy33441/jedi"
+  GO111MODULE = "on"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/gateway/:splat"
+  status = 200
