@@ -15,7 +15,7 @@ type MissingStudent struct {
 }
 
 type MissingStudentRepository interface {
-	GetByDate(time.Time) (*[]MissingStudent, error)
+	GetByDate(time.Time, int) (*[]MissingStudent, error)
 	SaveStudentMissingReason(id int, date time.Time, reason *MissingReason) (*MissingStudent, error)
 	RemoveStudentMissingReason(id int, date time.Time) (*MissingStudent, error)
 }

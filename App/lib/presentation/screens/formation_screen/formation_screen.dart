@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jedi/logic/cubit/course/course_cubit.dart';
 
 import '../../../core/themes/app_theme.dart';
 import '../../../logic/bloc/students_bloc/students_bloc.dart';
@@ -10,7 +11,10 @@ import 'widgets/formation_body.dart';
 class FormationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    context.read<StudentMissingCubit>().getMissingStudentsToday();
+    final currentCourse = context.read<CourseCubit>().state as CourseSelected;
+    context
+        .read<StudentMissingCubit>()
+        .getMissingStudentsToday(currentCourse.selectedCourse.id);
     context.read<ReportTypeCubit>().getReportTypes();
 
     return Scaffold(
@@ -25,7 +29,8 @@ class FormationScreen extends StatelessWidget {
               missingStudentsState is StudentMissingTodayFetchInProgress) {
             return Center(
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(Theme.of(context).success),
+                valueColor:
+                    AlwaysStoppedAnimation(Theme.of(context).primaryColor),
               ),
             );
           } else {

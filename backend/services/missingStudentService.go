@@ -53,8 +53,8 @@ func (service *MissingStudentService) RemoveReportStudentMissingReason(
 	return missingStudent, nil
 }
 
-func (service *MissingStudentService) GetMissingAtDate(date time.Time) (*[]models.MissingStudent, error) {
-	missingStudents, err := service.missingStudentRepository.GetByDate(date)
+func (service *MissingStudentService) GetMissingAtDate(date time.Time, courseId int) (*[]models.MissingStudent, error) {
+	missingStudents, err := service.missingStudentRepository.GetByDate(date, courseId)
 
 	if err != nil {
 		return nil, err

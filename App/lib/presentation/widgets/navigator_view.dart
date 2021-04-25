@@ -6,7 +6,8 @@ import '../router/app_router.dart';
 import 'bottom_nav_bar.dart';
 
 class NavigatorView extends StatefulWidget {
-  const NavigatorView({Key? key}) : super(key: key);
+  final int courseId;
+  const NavigatorView({Key? key, required this.courseId}) : super(key: key);
 
   @override
   _NavigatorViewState createState() => _NavigatorViewState();
@@ -15,7 +16,7 @@ class NavigatorView extends StatefulWidget {
 class _NavigatorViewState extends State<NavigatorView> {
   @override
   void initState() {
-    context.read<StudentsBloc>().add(StudentsFetch(courseId: 1));
+    context.read<StudentsBloc>().add(StudentsFetch(courseId: widget.courseId));
     super.initState();
   }
 

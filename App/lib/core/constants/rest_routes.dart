@@ -1,7 +1,7 @@
 class RestRoutes {
   // Student
   static final fetchStudentInCourse =
-      (int courseId) => '/course/courseId/$courseId/students';
+      (int courseId) => '/courses/courseId/$courseId/students';
 
   static final studentArrived = (int cardId, int courseId) =>
       '/students/card/$cardId/arrived/course/$courseId';
@@ -17,8 +17,8 @@ class RestRoutes {
       '/students/studentId/$studentId/reportTypes/$date';
 
   // StudentMissing
-  static final missingStudentsByDate =
-      (String date) => '/students/missings/$date';
+  static final missingStudentsByDate = (String date, int courseId) =>
+      '/students/courseId/$courseId/missings/$date';
 
   // Missing reasons
   static final missingReason = '/missingReasons';

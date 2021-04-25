@@ -6,17 +6,16 @@ import (
 	"dev.azure.com/u8635137/_git/Jedi/backend/config"
 )
 
-const courseTable = config.SchemaName + ".t_course";
+const courseTable = config.SchemaName + ".t_course"
 
 var (
 	COURSE_GET_ALL = fmt.Sprintf(
 		"SELECT * FROM %s", courseTable,
 	)
 	COURSE_GET_CURRENT = fmt.Sprintf(
-		`SELECT * FROM %[1]s
-		WHERE %[1]s.date_ending >= $1`,
+		`SELECT * FROM %s
+		 WHERE date_ending >= $1`,
 		courseTable,
-		studentTable,
 	)
 	COURSE_GET_BY_ID = fmt.Sprintf(
 		`SELECT * FROM %s

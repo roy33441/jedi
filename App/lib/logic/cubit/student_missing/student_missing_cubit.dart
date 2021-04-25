@@ -14,9 +14,10 @@ class StudentMissingCubit extends Cubit<StudentMissingState> {
   StudentMissingCubit({required this.repository})
       : super(StudentMissingTodayFetchInProgress());
 
-  Future<void> getMissingStudentsToday() async {
+  Future<void> getMissingStudentsToday(int courseId) async {
     emit(StudentMissingTodayFetchInProgress());
-    final missingStudentsToday = await repository.getMissingStudentsToday();
+    final missingStudentsToday =
+        await repository.getMissingStudentsToday(courseId);
     emit(
         StudentMissingTodayFetchSuccess(missingStudents: missingStudentsToday));
   }

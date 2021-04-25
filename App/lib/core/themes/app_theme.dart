@@ -5,7 +5,8 @@ class AppTheme {
   const AppTheme._();
 
   static const Color info_light = Color(0xFF545355);
-  static const Color primary_light = Color(0xFF89C99E);
+  static const Color primary_light_green = Color(0xFF89C99E);
+  static const Color primary_light_yellow = Color(0xFFF7D81E);
   static const Color text2_light = Color(0xFFC3BFBF);
   static const Color text1_light = Color(0xFF8E8E93);
   static const Color subtitle_light = Colors.white;
@@ -23,7 +24,7 @@ class AppTheme {
         subtitle1: TextStyle(color: subtitle_light),
       ),
     ),
-    primaryColor: primary_light,
+    primaryColor: primary_light_yellow,
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 

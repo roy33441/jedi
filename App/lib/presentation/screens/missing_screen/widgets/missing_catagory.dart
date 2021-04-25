@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../logic/cubit/report_missing_students/report_missing_students_cubit.dart';
 import '../../../../logic/entities/missing_reason.dart';
 import '../../../widgets/theme_button.dart';
+import 'package:jedi/core/extensions/color_utils.dart';
 
 class MissingCatagory extends StatelessWidget {
   @override
@@ -16,11 +17,11 @@ class MissingCatagory extends StatelessWidget {
         .select<ReportMissingStudentsCubit, List<MissingReasonEntity>>((cubit) {
       final currentState = cubit.state;
 
-      return currentState.missingReasons ?? [];
+      return currentState.missingReasons;
     });
 
     return Container(
-      decoration: _containterDecoration(),
+      decoration: _containterDecoration(context),
       height: size.height * 0.18,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -126,11 +127,16 @@ class MissingCatagory extends StatelessWidget {
     ).toList();
   }
 
-  BoxDecoration _containterDecoration() {
+  BoxDecoration _containterDecoration(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return BoxDecoration(
       gradient: LinearGradient(
         stops: [0, 0.7, 1],
-        colors: [Color(0xFF69B981), Color(0xFF89C99E), Color(0xFFB4DFC5)],
+        colors: [
+          theme.primaryColor.darken(15),
+          theme.primaryColor,
+          theme.primaryColor.brighten(45)
+        ],
         begin: FractionalOffset.topCenter,
         end: FractionalOffset.bottomCenter,
       ),

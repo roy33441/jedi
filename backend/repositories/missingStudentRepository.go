@@ -40,6 +40,7 @@ func (pgsqlRepo *PsqlMissingStudentRepository) RemoveStudentMissingReason(id int
 
 func (psqlRepo *PsqlMissingStudentRepository) GetByDate(
 	day time.Time,
+	courseId int,
 ) (*[]models.MissingStudent, error) {
 	missingStudents := []models.MissingStudent{}
 
@@ -47,6 +48,7 @@ func (psqlRepo *PsqlMissingStudentRepository) GetByDate(
 		&missingStudents,
 		queries.MISSING_STUDENT_GET_BY_DATE,
 		day,
+		courseId,
 	)
 
 	if err != nil {

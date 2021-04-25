@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:jedi/data/data_providers/courses_data_provider.dart';
 import 'package:jedi/data/repositories/courses_repository.dart';
-import 'package:jedi/logic/cubit/cubit/course_cubit.dart';
 import 'package:jedi/presentation/screens/course_select/course_select_screen.dart';
 import 'package:jedi/presentation/screens/home_screen/home_screen.dart';
+import 'package:jedi/presentation/widgets/navigator_view.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'core/constants/strings.dart';
@@ -24,6 +24,7 @@ import 'data/repositories/student_missing_repository.dart';
 import 'data/repositories/student_report_repository.dart';
 import 'data/repositories/students_repository.dart';
 import 'logic/bloc/students_bloc/students_bloc.dart';
+import 'logic/cubit/course/course_cubit.dart';
 import 'logic/cubit/manual_report/manual_report_cubit.dart';
 import 'logic/cubit/report_missing_students/report_missing_students_cubit.dart';
 import 'logic/cubit/report_type/report_type_cubit.dart';
@@ -87,8 +88,18 @@ class App extends StatelessWidget {
               ),
             ),
           ),
+          BlocProvider<CourseCubit>(
+            create: (_) => CourseCubit(
+              repository: CoursesRepository(
+                remoteDataProvider: CoursesDataProvider(client: dio),
+              ),
+            ),
+          ),
           BlocProvider<ReportMissingStudentsCubit>(
             create: (context) => ReportMissingStudentsCubit(
+              courseId: (context.read<CourseCubit>().state as CourseSelected)
+                  .selectedCourse
+                  .id,
               studentsBloc: context.read<StudentsBloc>(),
               studentMissingCubit: context.read<StudentMissingCubit>(),
               studentMissingRepository: StudentMissingRepository(
@@ -104,13 +115,6 @@ class App extends StatelessWidget {
             create: (context) =>
                 ManualReportCubit(context.read<StudentsBloc>()),
           ),
-          BlocProvider(
-            create: (_) => CourseCubit(
-              repository: CoursesRepository(
-                remoteDataProvider: CoursesDataProvider(client: dio),
-              ),
-            ),
-          ),
         ],
         child: MaterialApp(
           title: Strings.appTitle,
@@ -120,8 +124,11 @@ class App extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           home: Builder(
             builder: (context) {
-              if (context.read<CourseCubit>().state is CourseSelected) {
-                return HomeScreen();
+              final currentCourseState = context.read<CourseCubit>().state;
+              if (currentCourseState is CourseSelected) {
+                return NavigatorView(
+                  courseId: currentCourseState.selectedCourse.id,
+                );
               } else {
                 return CourseSelectScreen();
               }

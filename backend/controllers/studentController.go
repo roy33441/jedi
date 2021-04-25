@@ -28,7 +28,7 @@ func NewStudentController(
 	router.GET("/studentId/:id/reportTypes/:day", controller.getStudentReportDay)
 	router.GET("/course/:courseId", controller.getByCourse)
 	router.GET("/card/:cardId", controller.getByCardId)
-	router.GET("/missings/:day", controller.getMissingStudents)
+	router.GET("/courseId/:courseId/missings/:day", controller.getMissingStudents)
 
 	router.DELETE("/:id", controller.deleteStudent)
 
@@ -46,12 +46,17 @@ func NewStudentController(
 
 func (controller *StudentController) getMissingStudents(context *gin.Context) {
 	day := new(time.Time)
+	courseId := new(int)
 
 	if !utils.CheckConvertParamToDate(context, context.Param("day"), day) {
 		return
 	}
 
-	missingStudents, err := controller.missingStudentService.GetMissingAtDate(*day)
+	if !utils.CheckConvertParamToInt(context, context.Param("courseId"), courseId) {
+		return
+	}
+
+	missingStudents, err := controller.missingStudentService.GetMissingAtDate(*day, *courseId)
 
 	utils.HandleStandardHTTPRequest(context, missingStudents, err)
 }

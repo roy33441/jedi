@@ -18,6 +18,20 @@ class CourseCubit extends Cubit<CourseState> with HydratedMixin {
     emit(CourseFetchSuccess(courses: openCourses));
   }
 
+  void selectCourse(int selectedCourseId) {
+    final courses = (state as CourseFetchSuccess).courses;
+    emit(
+      CourseSelected(
+        selectedCourse:
+            courses.firstWhere((course) => course.id == selectedCourseId),
+      ),
+    );
+  }
+
+  void switchCourse() {
+    emit(CourseInitial());
+  }
+
   @override
   CourseState? fromJson(Map<String, dynamic> json) {
     if (json.containsKey('id')) {

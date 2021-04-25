@@ -12,10 +12,11 @@ class StudentMissingRemoteDataProvider extends RemoteDataProvider {
   StudentMissingRemoteDataProvider({required Dio client})
       : super(client: client);
 
-  Future<List<StudentMissing>> readStudentsMissingToday() async {
+  Future<List<StudentMissing>> readStudentsMissingToday(int courseId) async {
     final response = await client.get<List>(
       RestRoutes.missingStudentsByDate(
         FormatDate.format(DateTime.now()),
+        courseId,
       ),
     );
 

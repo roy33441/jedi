@@ -5,7 +5,7 @@ enum ReportMissingStudentsStatus { initial, loading, succuess, failure }
 class ReportMissingStudentsState extends Equatable {
   final StudentEntity? failedStudent;
   final MissingReasonEntity? missingReason;
-  final List<MissingReasonEntity>? missingReasons;
+  final List<MissingReasonEntity> missingReasons;
   final List<StudentEntity> missingStudents;
   final List<StudentMissingEntity> studentsMissingWithReason;
   final ReportMissingStudentsStatus status;
@@ -13,7 +13,7 @@ class ReportMissingStudentsState extends Equatable {
   ReportMissingStudentsState({
     this.failedStudent,
     this.missingReason,
-    this.missingReasons,
+    this.missingReasons = const <MissingReasonEntity>[],
     this.missingStudents = const <StudentEntity>[],
     this.studentsMissingWithReason = const <StudentMissingEntity>[],
     this.status = ReportMissingStudentsStatus.initial,
@@ -21,7 +21,11 @@ class ReportMissingStudentsState extends Equatable {
 
   List<StudentEntity> get missingStudentsByEntity =>
       [...studentsMissingWithReason]
-          .where((student) => student.reason == this.missingReason)
+          .where((student) =>
+              student.reason == this.missingReason &&
+              missingStudents.indexWhere((missingStudent) =>
+                      student.studentId == missingStudent.id) !=
+                  -1)
           .map((missingStudent) => missingStudents
               .firstWhere((student) => missingStudent.studentId == student.id))
           .toList();

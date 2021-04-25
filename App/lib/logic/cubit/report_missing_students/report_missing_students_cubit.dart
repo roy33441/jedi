@@ -27,8 +27,9 @@ class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
     required this.studentMissingCubit,
     required this.missingReasonRepository,
     required this.studentMissingRepository,
+    required int courseId,
   }) : super(ReportMissingStudentsState()) {
-    studentMissingCubit.getMissingStudentsToday();
+    studentMissingCubit.getMissingStudentsToday(courseId);
     getMissingReasons();
     listenStreams();
   }
@@ -56,7 +57,7 @@ class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
   ) {
     if (studentState is StudentFetchSuccess &&
         missingStudentState is StudentMissingTodayFetchSuccess &&
-        currentState.missingReasons!.length > 0) {
+        currentState.missingReasons.length > 0) {
       return currentState.copyWith(
         missingStudents: studentState.missingStudents,
         studentsMissingWithReason: missingStudentState.missingStudents,
@@ -80,7 +81,7 @@ class ReportMissingStudentsCubit extends Cubit<ReportMissingStudentsState> {
   void changeReason(String missingReason) {
     final currentState = state;
     emit(currentState.copyWith(
-      missingReason: currentState.missingReasons!
+      missingReason: currentState.missingReasons
           .firstWhere((reason) => reason.text == missingReason),
     ));
   }

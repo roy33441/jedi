@@ -9,7 +9,7 @@ type MissingStudentController struct {
 }
 
 // func NewMissingStudentController(
-// 		router *gin.RouterGroup, 
+// 		router *gin.RouterGroup,
 // 		missingStudentService services.MissingStudentService,
 // 	) {
 // 	controller := MissingStudentController{missingStudentService}

@@ -1,11 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:jedi/logic/cubit/course/course_cubit.dart';
+import 'package:jedi/presentation/screens/course_select/course_select_screen.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/strings.dart';
-import '../../../../core/themes/app_theme.dart';
 import '../../../widgets/statistics_container.dart';
 import 'manual_report_dialog.dart';
 
-class HomeBody extends StatelessWidget {
+class HomeBody extends StatefulWidget {
+  @override
+  _HomeBodyState createState() => _HomeBodyState();
+}
+
+class _HomeBodyState extends State<HomeBody> {
+  @override
+  void initState() {
+    // bool isAvailable = await NfcManager.instance.isAvailable();
+
+    // if (isAvailable) {
+    //   NfcManager.instance.startSession(
+    //     onDiscovered: (NfcTag tag) async {
+    //       print(tag.data);
+    //     },
+    //   );
+    // }
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // NfcManager.instance.stopSession();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -52,7 +80,7 @@ class HomeBody extends StatelessWidget {
                           builder: (_) => ManualReportDialog(),
                         );
                       },
-                      color: Theme.of(context).success,
+                      color: Theme.of(context).primaryColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Text(
@@ -63,7 +91,31 @@ class HomeBody extends StatelessWidget {
                           fontSize: 16,
                         ),
                       ),
-                    )
+                    ),
+                    MaterialButton(
+                      color: Theme.of(context).highlightColor,
+                      onPressed: () {
+                        context.read<CourseCubit>().switchCourse();
+                        Navigator.of(context, rootNavigator: true)
+                            .pushReplacement(
+                          MaterialPageRoute(
+                            builder: (_) => CourseSelectScreen(),
+                          ),
+                        );
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                      ),
+                      child: Text(
+                        'החלף קורס',
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ],
                 ),
               ),

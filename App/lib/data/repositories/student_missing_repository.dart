@@ -11,9 +11,11 @@ class StudentMissingRepository {
 
   StudentMissingRepository({required this.remoteDataProvider});
 
-  Future<List<StudentMissingEntity>> getMissingStudentsToday() async {
+  Future<List<StudentMissingEntity>> getMissingStudentsToday(
+    int courseId,
+  ) async {
     final rawMissingStudents =
-        await remoteDataProvider.readStudentsMissingToday();
+        await remoteDataProvider.readStudentsMissingToday(courseId);
 
     return List<StudentMissingEntity>.from(rawMissingStudents.map(
         (rawMissingStudent) =>

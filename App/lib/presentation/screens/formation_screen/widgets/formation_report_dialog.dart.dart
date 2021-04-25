@@ -49,7 +49,8 @@ class FormationReportDialog extends StatelessWidget {
             height: circularProgressIndicatorSize,
             width: circularProgressIndicatorSize,
             child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(Theme.of(context).success),
+              valueColor:
+                  AlwaysStoppedAnimation(Theme.of(context).primaryColor),
             ),
           ),
         ),
