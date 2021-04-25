@@ -19,6 +19,7 @@ dependencies:
   equatable: ^2.0.0
   flutter_bloc: ^7.0.0
   flutter_hooks: ^0.16.0
+  flutter_native_splash: ^1.1.8+4
   flutter_typeahead: ^3.1.1
   google_fonts: ^2.0.0
   hydrated_bloc: ^7.0.0
@@ -26,6 +27,10 @@ dependencies:
   nfc_manager: ^3.0.0+1
   path_provider: ^2.0.1
   rxdart: ^0.26.0
+
+flutter_native_splash:
+  color: "#212121"
+  image: assets/images/JEDAI-white.png
 
 dev_dependencies:
   flutter_test:
