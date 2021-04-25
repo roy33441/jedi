@@ -10,7 +10,7 @@ const studentTable = config.SchemaName + ".t_student"
 
 var (
 	STUDENT_GET_FROM_COURSE = fmt.Sprintf(
-		"SELECT * FROM %s WHERE course_id=$1", 
+		"SELECT * FROM %s WHERE course_id=$1",
 		studentTable,
 	)
 	STUDENT_COUNT_IN_COURSE = fmt.Sprintf(
@@ -58,12 +58,8 @@ var (
 		studentTable,
 	)
 	STUDENT_RESET_PRESENT = fmt.Sprintf(
-		`UPDATE %[1]s
-		SET is_present=false
-		FROM %[2]s
-		WHERE %[1]s.course_id=%[2]s.course_id AND 
-		%[1]s.is_present=true AND %[2]s.date_ending > $1`,
+		`UPDATE %s
+		 SET is_present=false`,
 		studentTable,
-		courseTable,
 	)
 )
