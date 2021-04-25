@@ -1,5 +1,5 @@
 [build]
-  command = "./backend/build.sh"
+  command = "ls"
   functions = "functions"
   publish = "public"
 
